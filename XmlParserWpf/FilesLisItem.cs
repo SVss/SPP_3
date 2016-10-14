@@ -20,14 +20,16 @@ namespace XmlParserWpf
 
         private static FilesListItem LoadFromFile(string path)
         {
-            var result = new FilesListItem();
             if (!File.Exists(path))
             {
                 throw new FileNotFoundException();
             }
 
-            result.Path = path;
-            result.IsSaved = false;
+            FilesListItem result = new FilesListItem()
+            {
+                Path = path,
+                IsSaved = false
+            };
 
             var doc = new XmlDocument();
             try

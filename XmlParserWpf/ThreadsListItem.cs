@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Xml;
 using TracerLib;
 
@@ -22,13 +23,33 @@ namespace XmlParserWpf
 
         public static ThreadsListItem FromXmlElement(XmlElement xe)
         {
-            ThreadsListItem result = null;
             if (xe.Name != XmlConstants.ThreadTag)
-            {
                 throw new BadXmlException();
+
+            long id, time;
+            try
+            {
+                id = Convert.ToInt64(xe.Attributes[XmlConstants.ThreadIdAttribute].Value);
+                time = Convert.ToInt64(xe.Attributes[XmlConstants.TimeAttribute].Value);
+            }
+            catch (Exception ex)
+            {
+                if (ex is XmlException || ex is FormatException || ex is OverflowException)
+                    throw new BadXmlException();
+
+                throw;
             }
 
-            // TODO: load methods here
+            var result = new ThreadsListItem()
+            {
+                Id = id,
+                Time = time
+            };
+
+            foreach (XmlElement child in xe.ChildNodes)
+            {
+                result.Methods.Add(MethodsListItem.FromXmlElement(child));
+            }
 
             return result;
         }
