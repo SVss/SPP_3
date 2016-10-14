@@ -5,8 +5,28 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XmlParserWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="300" Width="500">
+    <Window.CommandBindings>
+        <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted" />
+        <CommandBinding Command="local:CustomCommands.Open" CanExecute="Open_OnCanExecute" Executed="Open_OnExecuted" />
+        <!-- TODO: more bindings -->
+    </Window.CommandBindings>
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Menu Grid.Row="0">
+            <MenuItem Name="FileMenu" Header="File">
+                <MenuItem Name="OpenFileMenuItem" Header="Open" Command="local:CustomCommands.Open"/>
+                <!-- TODO: more FileMenuItems -->
+                <MenuItem Name="CloseFileMenuItem" Header="Close"/>
+                <Separator />
+                <MenuItem Name="ExitFileMenuItem" Header="Exit" Command="local:CustomCommands.Exit"/>
+            </MenuItem>
+        </Menu>
+        <TabControl Grid.Row="1" Name="FileTabs">
+            
+        </TabControl>
     </Grid>
 </Window>

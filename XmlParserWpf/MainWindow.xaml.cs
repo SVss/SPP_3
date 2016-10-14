@@ -24,5 +24,54 @@ namespace XmlParserWpf
         {
             InitializeComponent();
         }
+
+
+        private void Open_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void Open_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            // TODO: add new file to filesList
+
+            MessageBox.Show("Open", "Opening file");
+        }
+
+        private void Exit_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void Exit_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            // TODO: check all tabs to be saved
+            Close();
+        }
+    }
+
+    internal static class CustomCommands
+    {
+        public static RoutedUICommand Open = new RoutedUICommand(
+            "Open",
+            "Open",
+            typeof(CustomCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.O, ModifierKeys.Control)
+            }
+        );
+
+        public static RoutedUICommand Exit = new RoutedUICommand(
+            "Exit",
+            "Exit",
+            typeof(CustomCommands),
+            new InputGestureCollection()
+            {
+                new KeyGesture(Key.X, ModifierKeys.Alt)
+            }
+        );
+
+        // TODO: more commands
     }
 }
