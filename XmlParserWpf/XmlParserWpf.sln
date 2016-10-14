@@ -5,6 +5,10 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XmlParserWpf", "XmlParserWpf\XmlParserWpf.csproj", "{B93B2097-F03F-4743-A156-35285956C554}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracerLibXmlParser", "..\TracerLibXmlParser\TracerLibXmlParser\TracerLibXmlParser.csproj", "{0CD59627-45EC-46FD-891C-B06070C111AD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TracerLib", "..\TracerLib\TracerLib.csproj", "{021EBA19-B215-46B0-8B9F-B1FB9E9ABA79}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{B93B2097-F03F-4743-A156-35285956C554}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B93B2097-F03F-4743-A156-35285956C554}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B93B2097-F03F-4743-A156-35285956C554}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0CD59627-45EC-46FD-891C-B06070C111AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0CD59627-45EC-46FD-891C-B06070C111AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0CD59627-45EC-46FD-891C-B06070C111AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0CD59627-45EC-46FD-891C-B06070C111AD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{021EBA19-B215-46B0-8B9F-B1FB9E9ABA79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{021EBA19-B215-46B0-8B9F-B1FB9E9ABA79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{021EBA19-B215-46B0-8B9F-B1FB9E9ABA79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{021EBA19-B215-46B0-8B9F-B1FB9E9ABA79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

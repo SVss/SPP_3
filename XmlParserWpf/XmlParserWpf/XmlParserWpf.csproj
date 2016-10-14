@@ -46,9 +46,6 @@
     <Reference Include="System.Xaml">
       <RequiredTargetFramework>4.0</RequiredTargetFramework>
     </Reference>
-    <Reference Include="TracerLib">
-      <HintPath>..\..\..\Lab1 - Profiler\TracerLib\TracerLib\bin\Debug\TracerLib.dll</HintPath>
-    </Reference>
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -66,7 +63,6 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BadXmlException.cs" />
     <Compile Include="FilesLisItem.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
@@ -74,7 +70,6 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ThreadsListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -100,6 +95,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\TracerLibXmlParser\TracerLibXmlParser\TracerLibXmlParser.csproj">
+      <Project>{0cd59627-45ec-46fd-891c-b06070c111ad}</Project>
+      <Name>TracerLibXmlParser</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\TracerLib\TracerLib.csproj">
+      <Project>{021eba19-b215-46b0-8b9f-b1fb9e9aba79}</Project>
+      <Name>TracerLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

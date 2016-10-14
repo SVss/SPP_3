@@ -2,6 +2,7 @@
 using System.IO;
 using System.Xml;
 using TracerLib;
+using TracerLibXmlParser;
 
 namespace XmlParserWpf
 {

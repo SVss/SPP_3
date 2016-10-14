@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace XmlParserWpf
+namespace TracerLibXmlParser
 {
     [Serializable]
-    internal class BadXmlException : Exception
+    public class BadXmlException : Exception
     {
         public BadXmlException()
         {

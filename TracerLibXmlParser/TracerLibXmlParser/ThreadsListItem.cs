@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Xml;
 using TracerLib;
 
-namespace XmlParserWpf
+namespace TracerLibXmlParser
 {
-    internal class ThreadsListItem
+    public class ThreadsListItem
     {
         public long Id { get; set; }
         public long Time { get; set; }
@@ -59,7 +59,7 @@ namespace XmlParserWpf
         }
     }
 
-    internal class MethodsListItem
+    public class MethodsListItem
     {
         public string Name { get; set; }
         public string Package { get; set; }
@@ -76,7 +76,7 @@ namespace XmlParserWpf
 
         public static MethodsListItem FromXmlElement(XmlElement xe)
         {
-            if (xe.Name != XmlConstants.ThreadTag)
+            if (xe.Name != XmlConstants.MethodTag)
                 throw new BadXmlException();
 
             string name, package;
