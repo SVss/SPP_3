@@ -6,7 +6,7 @@ namespace XmlParserWpf
 {
     internal class ThreadsListItem
     {
-        public ThreadsListItem()
+        private ThreadsListItem()
         {
             Methods = new List<MethodsListItem>();
         }
@@ -19,11 +19,24 @@ namespace XmlParserWpf
         {
             return $"thread (id=\"{Id}\" time=\"{Time}\")";
         }
+
+        public static ThreadsListItem FromXmlElement(XmlElement xe)
+        {
+            ThreadsListItem result = null;
+            if (xe.Name != XmlConstants.ThreadTag)
+            {
+                throw new BadXmlException();
+            }
+
+            // TODO: load methods here
+
+            return result;
+        }
     }
 
     internal class MethodsListItem
     {
-        public MethodsListItem()
+        private MethodsListItem()
         {
             Children = new List<MethodsListItem>();
         }
@@ -38,6 +51,15 @@ namespace XmlParserWpf
         public override string ToString()
         {
             return $"{Name} (params=\"{ParamsCount}\" package=\"{Package})\" time=\"{Time}\"";
+        }
+
+        public static MethodsListItem FromXmlElement(XmlElement xe)
+        {
+            MethodsListItem result = null;
+
+            // TODO: load nested methods here
+
+            return result;
         }
     }
 }
