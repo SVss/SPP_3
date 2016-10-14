@@ -13,12 +13,7 @@ namespace XmlParserWpf
 
         public List<ThreadsListItem> ThreadsList { get; }
 
-        private FilesListItem()
-        {
-            ThreadsList = new List<ThreadsListItem>();
-        }
-
-        private static FilesListItem LoadFromFile(string path)
+        public static FilesListItem LoadFromFile(string path)
         {
             if (!File.Exists(path))
             {
@@ -45,6 +40,13 @@ namespace XmlParserWpf
             return result;
         }
 
+        public void OnChanged()
+        {
+            IsSaved = false;
+        }
+
+        // Internal
+
         private void FromXmlDocument(XmlDocument doc)
         {
             XmlElement xe = doc.FirstChild as XmlElement;
@@ -59,9 +61,9 @@ namespace XmlParserWpf
             }
         }
 
-        public void OnChanged()
+        private FilesListItem()
         {
-            IsSaved = false;
+            ThreadsList = new List<ThreadsListItem>();
         }
     }
 }
