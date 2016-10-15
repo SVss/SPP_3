@@ -8,13 +8,25 @@ using TracerLibXmlParser;
 
 namespace XmlParserWpf
 {
-    public class FilesListItem
+    public class FilesListItem: INotifyPropertyChanged
     {
         public string Path { get; private set; }
         public string Name => System.IO.Path.GetFileName(Path);
-        public bool IsSaved { get; set; }
-
         public List<ThreadsListItem> ThreadsList { get; }
+        private bool _isSaved;
+
+        public bool IsSaved
+        {
+            get
+            {
+                return _isSaved;
+            }
+            set
+            {
+                _isSaved = value;
+                OnPropertyChanged("IsSaved");
+            }
+        }
 
         public static FilesListItem LoadFromFile(string path)
         {
@@ -62,11 +74,22 @@ namespace XmlParserWpf
             {
                 ThreadsList.Add(ThreadsListItem.FromXmlElement(child));
             }
+
+            IsSaved = true;
         }
 
         private FilesListItem()
         {
             ThreadsList = new List<ThreadsListItem>();
+        }
+
+        // INotifyPropertyChange
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

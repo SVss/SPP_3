@@ -37,15 +37,31 @@
             </TabControl.ItemsSource>
 
             <TabControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:FilesViewModel}">
-                    <TextBlock Text="{Binding Path=Name}" />
+                <DataTemplate DataType="{x:Type local:FilesListItem}">
+                    <TextBlock>
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Text" Value="{Binding Path=Name}" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding IsSaved}" Value="False">
+                                        <Setter Property="Text" Value="{Binding StringFormat={}{0}*, Path=Name}"></Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
                 </DataTemplate>
             </TabControl.ItemTemplate>
 
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <DockPanel>
-                        <TreeView x:Name="FileTree" DataContext="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile}" ItemsSource="{Binding ThreadsList}">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition></RowDefinition>
+                            <RowDefinition Height="Auto"></RowDefinition>
+                        </Grid.RowDefinitions>
+                        
+                        <TreeView Grid.Row="0" x:Name="FileTree" DataContext="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile}" ItemsSource="{Binding ThreadsList}">
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}" ItemsSource="{Binding Methods}">
                                     <TextBlock Text="{Binding Path=AsString}"></TextBlock>
@@ -55,7 +71,11 @@
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
                         </TreeView>
-                    </DockPanel>
+                        <!-- Check saved state: -->
+                        <CheckBox Grid.Row="1" IsChecked="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile.IsSaved}">
+                            <TextBlock Text="Saved"></TextBlock>
+                        </CheckBox>
+                    </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
             
