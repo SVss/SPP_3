@@ -1,0 +1,35 @@
+<root>
+  <thread id="1" time="6155">
+    <method name="TraceMethod" time="2" package="Program" params="0">
+      <method name="Method0" time="1" package="Program" params="0">
+        <method name="Get42" time="1" package="Program" params="0" />
+        <method name="Get42" time="0" package="Program" params="0" />
+      </method>
+    </method>
+    <method name="TraceClassMethods" time="6153" package="Program" params="0">
+      <method name="Method1" time="6152" package="AnotherClass1" params="3">
+        <method name="CoolMethod" time="6149" package="AnotherClass1" params="1">
+					<method name="CoolMethod" time="6050" package="AnotherClass1" params="1" />
+        </method>
+        <method name="AnotherCoolMethod" time="0" package="AnotherClass1" params="0" />
+        <method name="UnusualMethod" time="0" package="AnotherClass1" params="0" />
+      </method>
+      <method name="UnusualMethod" time="0" package="AnotherClass1" params="0" />
+    </method>
+  </thread>
+  <thread id="3" time="199">
+    <method name="Method1" time="199" package="AnotherClass1" params="3">
+      <method name="CoolMethod" time="199" package="AnotherClass1" params="1">
+        <method name="CoolMethod" time="150" package="AnotherClass1" params="1">
+          <method name="CoolMethod" time="99" package="AnotherClass1" params="1">
+            <method name="CoolMethod" time="49" package="AnotherClass1" params="1">
+              <method name="CoolMethod" time="0" package="AnotherClass1" params="1" />
+            </method>
+          </method>
+        </method>
+      </method>
+      <method name="AnotherCoolMethod" time="0" package="AnotherClass1" params="0" />
+      <method name="UnusualMethod" time="0" package="AnotherClass1" params="0" />
+    </method>
+  </thread>
+</root>

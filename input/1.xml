@@ -1,0 +1,7 @@
+<root>
+	<thread id="0" time="110">
+		<method name = "MyMethod" time="105" package="MyClass" params="2">
+			<method name = "NestedMethod" time="100" package="MyClass" params="0" />
+		</method>
+	</thread>
+</root>
