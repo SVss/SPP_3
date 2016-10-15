@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
+using System.Runtime.CompilerServices;
 using System.Xml;
 using TracerLib;
 using TracerLibXmlParser;
@@ -8,7 +10,7 @@ namespace XmlParserWpf
 {
     public class FilesListItem
     {
-        public string Path { get; set; }
+        public string Path { get; private set; }
         public string Name => System.IO.Path.GetFileName(Path);
         public bool IsSaved { get; set; }
 

@@ -47,7 +47,6 @@ namespace XmlParserWpf
             try
             {
                 FilesList.AddAndSelect(FilesListItem.LoadFromFile(path));
-                MessageBox.Show("Open", "Opening file");
             }
             catch (BadXmlException)
             {
@@ -68,7 +67,7 @@ namespace XmlParserWpf
 
         private void Close_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = FilesList.Count > 0;
+            e.CanExecute = (FilesList.Count > 0);
         }
 
         private void Close_OnExecuted(object sender, ExecutedRoutedEventArgs e)

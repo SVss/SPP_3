@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XmlParserWpf"
+        xmlns:tracerResItems="clr-namespace:TracerLibXmlParser;assembly=TracerLibXmlParser"
         mc:Ignorable="d"
         Title="MainWindow" Height="424.038" Width="371" Name="mainWindow">
         
@@ -36,18 +37,29 @@
             </TabControl.ItemsSource>
 
             <TabControl.ItemTemplate>
-                <DataTemplate DataType="local:FilesViewModel">
-                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                <DataTemplate DataType="{x:Type local:FilesViewModel}">
+                    <TextBlock Text="{Binding Path=Name}" />
                 </DataTemplate>
             </TabControl.ItemTemplate>
 
             <TabControl.ContentTemplate>
                 <DataTemplate>
-                    <TreeView x:Name="FileTree">
-                        <!-- TODO: bind tree -->
-                    </TreeView>
+                    <DockPanel>
+                        <TreeView x:Name="FileTree" DataContext="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile}" ItemsSource="{Binding ThreadsList}">
+                            <TreeView.Resources>
+                                <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}" ItemsSource="{Binding Children}">
+                                    <TextBlock Text="{Binding Path=AsString}"></TextBlock>
+                                </HierarchicalDataTemplate>
+                                <HierarchicalDataTemplate DataType="{x:Type tracerResItems:MethodsListItem}" ItemsSource="{Binding Children}">
+                                    <TextBlock Text="{Binding Path=AsString}"></TextBlock>
+                                </HierarchicalDataTemplate>
+                            </TreeView.Resources>
+                        </TreeView>
+                    </DockPanel>
                 </DataTemplate>
             </TabControl.ContentTemplate>
+            
         </TabControl>
+        
     </Grid>
 </Window>

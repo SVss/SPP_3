@@ -6,7 +6,8 @@ namespace XmlParserWpf
 {
     public class FilesViewModel: ObservableCollection<FilesListItem>
     {
-        private int _selectedIndex = -1;
+        public const int NoneSelection = -1;
+        private int _selectedIndex = NoneSelection;
 
         public int SelectedIndex
         {
@@ -15,10 +16,11 @@ namespace XmlParserWpf
             {
                 _selectedIndex = value;
                 OnPropertyChanged(new PropertyChangedEventArgs("SelectedIndex"));
+                OnPropertyChanged(new PropertyChangedEventArgs("SelectedFile"));
             }
         }
 
-        public FilesListItem SelectedFile => (SelectedIndex > 0 ? this[SelectedIndex] : null);
+        public FilesListItem SelectedFile => (SelectedIndex != NoneSelection ? this[SelectedIndex] : null);
 
         public void AddAndSelect(FilesListItem item)
         {
@@ -45,7 +47,7 @@ namespace XmlParserWpf
             RemoveAt(SelectedIndex);
 
             if (Count < 0)
-                SelectedIndex = -1;
+                SelectedIndex = NoneSelection;
         }
     }
 }
