@@ -13,7 +13,7 @@ namespace XmlParserWpf
     /// </summary>
     public partial class MainWindow
     {
-        public FilesViewModel FilesList { get; set; } = new FilesViewModel();
+        public FilesViewModel FilesList { get; } = new FilesViewModel();
 
         private static readonly OpenFileDialog OpenFileDialog = new OpenFileDialog()
         {
@@ -38,9 +38,9 @@ namespace XmlParserWpf
                 return;
 
             string path = OpenFileDialog.FileNames[0];
-            if (FilesList.Any(x => x.Path.Equals(path)))
+            if (FilesList.HasFile(path))
             {
-                FilesList.SelectedIndex = FilesList.IndexOf(FilesList.First(x => x.Path.Equals(path)));
+                FilesList.SelectIfExists(path);
                 return;
             }
 
