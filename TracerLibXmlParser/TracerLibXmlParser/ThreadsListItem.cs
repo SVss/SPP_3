@@ -11,12 +11,9 @@ namespace TracerLibXmlParser
         public long Time { get; set; }
         public List<MethodsListItem> Methods { get; }
 
-        // Public
+        public string AsString => $"thread (id=\"{Id}\" time=\"{Time}\")";
 
-        public override string ToString()
-        {
-            return $"thread (id=\"{Id}\" time=\"{Time}\")";
-        }
+        // Public
 
         public static ThreadsListItem FromXmlElement(XmlElement xe)
         {
@@ -65,14 +62,11 @@ namespace TracerLibXmlParser
         public string Package { get; set; }
         public long ParamsCount { get; set; }
         public long Time { get; set; }
-        public List<MethodsListItem> Children { get; }
+        public List<MethodsListItem> Nested { get; }
+
+        public string AsString => $"{Name} (params=\"{ParamsCount}\" package=\"{Package})\" time=\"{Time}\"";
 
         // Public
-
-        public override string ToString()
-        {
-            return $"{Name} (params=\"{ParamsCount}\" package=\"{Package})\" time=\"{Time}\"";
-        }
 
         public static MethodsListItem FromXmlElement(XmlElement xe)
         {
@@ -106,7 +100,7 @@ namespace TracerLibXmlParser
 
             foreach (XmlElement child in xe.ChildNodes)
             {
-                result.Children.Add(FromXmlElement(child));
+                result.Nested.Add(FromXmlElement(child));
             }
 
             return result;
@@ -116,7 +110,7 @@ namespace TracerLibXmlParser
 
         private MethodsListItem()
         {
-            Children = new List<MethodsListItem>();
+            Nested = new List<MethodsListItem>();
         }
     }
 }
