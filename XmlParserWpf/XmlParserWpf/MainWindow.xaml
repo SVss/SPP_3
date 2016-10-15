@@ -1,32 +1,53 @@
-﻿<Window x:Class="XmlParserWpf.MainWindow"
+﻿    <Window x:Class="XmlParserWpf.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XmlParserWpf"
         mc:Ignorable="d"
-        Title="MainWindow" Height="300" Width="500">
+        Title="MainWindow" Height="424.038" Width="371" Name="mainWindow">
+        
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted" />
         <CommandBinding Command="local:CustomCommands.Open" CanExecute="Open_OnCanExecute" Executed="Open_OnExecuted" />
-        <!-- TODO: more bindings -->
+        <CommandBinding Command="local:CustomCommands.Close" CanExecute="Close_OnCanExecute" Executed="Close_OnExecuted" />
+        <!-- TODO: more CommandBindings -->
     </Window.CommandBindings>
+        
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
+        
         <Menu Grid.Row="0">
             <MenuItem Name="FileMenu" Header="File">
                 <MenuItem Name="OpenFileMenuItem" Header="Open" Command="local:CustomCommands.Open"/>
                 <!-- TODO: more FileMenuItems -->
-                <MenuItem Name="CloseFileMenuItem" Header="Close"/>
+                <MenuItem Name="CloseFileMenuItem" Header="Close" Command="local:CustomCommands.Close"/>
                 <Separator />
                 <MenuItem Name="ExitFileMenuItem" Header="Exit" Command="local:CustomCommands.Exit"/>
             </MenuItem>
         </Menu>
-        <TabControl Grid.Row="1" Name="FileTabs">
-            
+
+        <TabControl Grid.Row="1" Name="FileTabs" SelectedIndex="{Binding ElementName=mainWindow, Path=FilesList.SelectedIndex}">
+            <TabControl.ItemsSource>
+                <Binding ElementName="mainWindow" Path="FilesList"/>
+            </TabControl.ItemsSource>
+
+            <TabControl.ItemTemplate>
+                <DataTemplate DataType="local:FilesViewModel">
+                    <TextBlock Text="{Binding Path=Name}"></TextBlock>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <TreeView x:Name="FileTree">
+                        <!-- TODO: bind tree -->
+                    </TreeView>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
         </TabControl>
     </Grid>
 </Window>

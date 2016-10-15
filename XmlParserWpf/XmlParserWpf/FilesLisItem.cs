@@ -6,7 +6,7 @@ using TracerLibXmlParser;
 
 namespace XmlParserWpf
 {
-    internal class FilesListItem
+    public class FilesListItem
     {
         public string Path { get; set; }
         public string Name => System.IO.Path.GetFileName(Path);
