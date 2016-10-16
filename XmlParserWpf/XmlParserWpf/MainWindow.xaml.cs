@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
 using MessageBox = System.Windows.MessageBox;
@@ -144,6 +145,16 @@ namespace XmlParserWpf
         {
             if (FilesList.SelectedFile != null)
                 FilesList.SelectedFile.SelectedMethod = e.NewValue as MethodsListItem;
+        }
+
+        private void FileTreeItem_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            TreeViewItem item = sender as TreeViewItem;
+            if (item == null) return;
+            if (!item.IsSelected) return;
+            if (FilesList.SelectedFile.SelectedMethod == null) return;
+
+            MessageBox.Show("Method properties are shown");
         }
     }
 

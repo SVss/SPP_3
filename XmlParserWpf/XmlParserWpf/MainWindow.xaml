@@ -81,6 +81,12 @@
                                 <Binding Path="ThreadsList"/>
                             </TreeView.ItemsSource>
 
+                            <TreeView.ItemContainerStyle>
+                                <Style TargetType="{x:Type TreeViewItem}">
+                                    <EventSetter Event="MouseDoubleClick" Handler="FileTreeItem_OnMouseDoubleClick"></EventSetter>
+                                </Style>
+                            </TreeView.ItemContainerStyle>
+                            
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}">
                                     <HierarchicalDataTemplate.ItemsSource>
