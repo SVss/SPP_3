@@ -147,14 +147,15 @@ namespace XmlParserWpf
                 FilesList.SelectedFile.SelectedMethod = e.NewValue as MethodsListItem;
         }
 
-        private void FileTreeItem_OnMouseDoubleClick(object sender, MouseButtonEventArgs e)
+        private void FileTreeItem_OnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem item = sender as TreeViewItem;
             if (item == null) return;
             if (!item.IsSelected) return;
             if (FilesList.SelectedFile.SelectedMethod == null) return;
 
-            MessageBox.Show("Method properties are shown");
+            MessageBox.Show("Method properties are shown"); // TODO: open properties form here
+            e.Handled = true;
         }
     }
 
