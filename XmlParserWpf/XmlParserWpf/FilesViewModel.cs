@@ -14,9 +14,12 @@ namespace XmlParserWpf
             get { return _selectedIndex; }
             set
             {
-                _selectedIndex = value;
-                OnPropertyChanged(new PropertyChangedEventArgs("SelectedIndex"));
-                OnPropertyChanged(new PropertyChangedEventArgs("SelectedFile"));
+                if (_selectedIndex != value)
+                {
+                    _selectedIndex = value;
+                    OnPropertyChanged(new PropertyChangedEventArgs("SelectedIndex"));
+                    OnPropertyChanged(new PropertyChangedEventArgs("SelectedFile"));
+                }
             }
         }
 

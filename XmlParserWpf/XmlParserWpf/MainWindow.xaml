@@ -6,21 +6,21 @@
         xmlns:local="clr-namespace:XmlParserWpf"
         xmlns:tracerResItems="clr-namespace:TracerLibXmlParser;assembly=TracerLibXmlParser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="424.038" Width="371" Name="mainWindow"
+        Title="Lab3 - XmlParserWpf" Height="424.038" Width="371" Name="mainWindow"
             Closing="MainWindow_OnClosing">
 
     <Window.CommandBindings>
-        <CommandBinding Command="Open" CanExecute="Open_OnCanExecute" Executed="Open_OnExecuted" />
-        <CommandBinding Command="Save" CanExecute="Save_OnCanExecute" Executed="Save_OnExecuted" />
-        <CommandBinding Command="SaveAs" CanExecute="SaveAs_OnCanExecute" Executed="SaveAs_OnExecuted" />
-        <CommandBinding Command="local:CustomCommands.Close" CanExecute="Close_OnCanExecute" Executed="Close_OnExecuted" />
-        <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted" />
+        <CommandBinding Command="Open" CanExecute="Open_OnCanExecute" Executed="Open_OnExecuted"/>
+        <CommandBinding Command="Save" CanExecute="Save_OnCanExecute" Executed="Save_OnExecuted"/>
+        <CommandBinding Command="SaveAs" CanExecute="SaveAs_OnCanExecute" Executed="SaveAs_OnExecuted"/>
+        <CommandBinding Command="local:CustomCommands.Close" CanExecute="Close_OnCanExecute" Executed="Close_OnExecuted"/>
+        <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted"/>
     </Window.CommandBindings>
 
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
         
         <Menu Grid.Row="0">
@@ -29,7 +29,7 @@
                 <MenuItem Header="Save" Command="Save"/>
                 <MenuItem Header="Save as" Command="SaveAs"/>
                 <MenuItem Header="Close" Command="local:CustomCommands.Close"/>
-                <Separator />
+                <Separator/>
                 <MenuItem Header="Exit" Command="local:CustomCommands.Exit"/>
             </MenuItem>
         </Menu>
@@ -44,10 +44,10 @@
                     <TextBlock>
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Text" Value="{Binding Path=Name}" />
+                                <Setter Property="Text" Value="{Binding Path=Name}"/>
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding IsSaved}" Value="False">
-                                        <Setter Property="Text" Value="{Binding StringFormat={}{0}*, Path=Name}"></Setter>
+                                        <Setter Property="Text" Value="{Binding StringFormat={}{0}*, Path=Name}"/>
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
@@ -59,25 +59,61 @@
             <TabControl.ContentTemplate>
                 <DataTemplate>
                     <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition/>
+                        </Grid.ColumnDefinitions>
                         <Grid.RowDefinitions>
-                            <RowDefinition></RowDefinition>
-                            <RowDefinition Height="Auto"></RowDefinition>
+                            <RowDefinition/>
+                            <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
-                        
-                        <TreeView Grid.Row="0" DataContext="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile}" ItemsSource="{Binding ThreadsList}">
+
+                        <TreeView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                            <TreeView.DataContext>
+                                <Binding ElementName="mainWindow" Path="FilesList.SelectedFile"/>
+                            </TreeView.DataContext>
+                            
+                            <TreeView.ItemsSource>
+                                <Binding Path="ThreadsList"/>
+                            </TreeView.ItemsSource>
+                            
                             <TreeView.Resources>
-                                <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}" ItemsSource="{Binding Methods}">
-                                    <TextBlock Text="{Binding Path=AsString}"></TextBlock>
+                                <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}">
+                                    <HierarchicalDataTemplate.ItemsSource>
+                                        <Binding Path="Methods"/>
+                                    </HierarchicalDataTemplate.ItemsSource>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="thread {0} (time: {1})">
+                                                <Binding Path="Id"/>
+                                                <Binding Path="Time"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </HierarchicalDataTemplate>
-                                    <HierarchicalDataTemplate DataType="{x:Type tracerResItems:MethodsListItem}" ItemsSource="{Binding Nested}">
-                                        <TextBlock Text="{Binding Path=AsString}"></TextBlock>
+                                
+                                <HierarchicalDataTemplate DataType="{x:Type tracerResItems:MethodsListItem}">
+                                    <HierarchicalDataTemplate.ItemsSource>
+                                        <Binding Path="Nested" />
+                                    </HierarchicalDataTemplate.ItemsSource>
+                                    <TextBlock>
+                                        <TextBlock.Text>
+                                            <MultiBinding StringFormat="{}{0} (params={1} package={2}) time={3}">
+                                                <Binding Path="Name"/>
+                                                <Binding Path="ParamsCount"/>
+                                                <Binding Path="Package"/>
+                                                <Binding Path="Time"/>
+                                            </MultiBinding>
+                                        </TextBlock.Text>
+                                    </TextBlock>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
                         </TreeView>
                         <!-- Check saved state: -->
-                        <CheckBox Grid.Row="1" IsChecked="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile.IsSaved}">
+                        <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile.IsSaved}">
                             <TextBlock Text="Saved"></TextBlock>
                         </CheckBox>
+                        <Button Grid.Row="1" Grid.Column="1" Click="PropertiesButton_OnClick"></Button>
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>

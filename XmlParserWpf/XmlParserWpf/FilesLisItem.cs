@@ -16,10 +16,8 @@ namespace XmlParserWpf
             get { return _path; }
             private set
             {
-                bool changed = _path != value;
-                _path = value;
-                if (changed)
-                {
+                if(_path != value) {
+                    _path = value;
                     OnPropertyChanged("Path");
                     OnPropertyChanged("Name");
                 }
@@ -32,14 +30,14 @@ namespace XmlParserWpf
 
         public bool IsSaved
         {
-            get
-            {
-                return _isSaved;
-            }
+            get { return _isSaved; }
             set
             {
-                _isSaved = value;
-                OnPropertyChanged("IsSaved");
+                if (_isSaved != value)
+                {
+                    _isSaved = value;
+                    OnPropertyChanged("IsSaved");
+                }
             }
         }
 

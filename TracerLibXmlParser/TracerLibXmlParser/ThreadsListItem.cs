@@ -11,8 +11,6 @@ namespace TracerLibXmlParser
         public long Time { get; set; }
         public List<MethodsListItem> Methods { get; }
 
-        public string AsString => $"thread (id=\"{Id}\" time=\"{Time}\")";
-
         // Public
 
         public static ThreadsListItem FromXmlElement(XmlElement xe)
@@ -76,8 +74,6 @@ namespace TracerLibXmlParser
         public long ParamsCount { get; set; }
         public long Time { get; set; }
         public List<MethodsListItem> Nested { get; }
-
-        public string AsString => $"{Name} (params=\"{ParamsCount}\" package=\"{Package})\" time=\"{Time}\"";
 
         // Public
 
