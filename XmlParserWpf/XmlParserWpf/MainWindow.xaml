@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:XmlParserWpf"
         xmlns:viewModel="clr-namespace:XmlParserWpf.ViewModel"
         mc:Ignorable="d"
-        Title="Lab3 - XmlParserWpf" Height="424.038" Width="371" Name="mainWindow"
+        Title="Lab3 - XmlParserWpf" Height="424.038" Width="371" Name="MainAppWindow"
             Closing="MainWindow_OnClosing">
 
     <Window.CommandBindings>
@@ -38,11 +38,11 @@
 
         <TabControl Grid.Row="1">
             <TabControl.SelectedIndex>
-                <Binding ElementName="mainWindow" Path="FilesList.SelectedIndex"/>
+                <Binding ElementName="MainAppWindow" Path="FilesList.SelectedIndex"/>
             </TabControl.SelectedIndex>
             
             <TabControl.ItemsSource>
-                <Binding ElementName="mainWindow" Path="FilesList"/>
+                <Binding ElementName="MainAppWindow" Path="FilesList"/>
             </TabControl.ItemsSource>
 
             <TabControl.ItemTemplate>
@@ -76,7 +76,7 @@
 
                         <TreeView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Name="FileTreeView"  SelectedItemChanged="FileTreeView_OnSelectedItemChanged">
                             <TreeView.DataContext>
-                                <Binding ElementName="mainWindow" Path="FilesList.SelectedFile"/>
+                                <Binding ElementName="MainAppWindow" Path="FilesList.SelectedFile"/>
                             </TreeView.DataContext>
 
                             <TreeView.ItemsSource>

@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XmlParserWpf"
         mc:Ignorable="d"
-        Title="Methods Properties" Height="243" Width="254" Name="propsWindow">
+        Title="Methods Properties" Height="243" Width="254" Name="PropsWindow">
 
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Ok" CanExecute="Ok_OnCanExecute" Executed="Ok_OnExecuted" />
@@ -25,7 +25,7 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Name" Margin="0 0 10 0" HorizontalAlignment="Left"></Label>
-                <TextBox Grid.Column="1" Text="{Binding ElementName=propsWindow, Path=Method.Name}"></TextBox>
+                <TextBox Grid.Column="1" Text="{Binding ElementName=PropsWindow, Path=Method.Name}"></TextBox>
             </Grid>
             <Grid Margin="0 0 0 10">
                 <Grid.ColumnDefinitions>
@@ -33,7 +33,7 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Package" Margin="0 0 10 0" HorizontalAlignment="Left"></Label>
-                <TextBox Grid.Column="1" Text="{Binding ElementName=propsWindow, Path=Method.Package}"></TextBox>
+                <TextBox Grid.Column="1" Text="{Binding ElementName=PropsWindow, Path=Method.Package}"></TextBox>
             </Grid>
             <Grid Margin="0 0 0 10">
                 <Grid.ColumnDefinitions>
@@ -41,7 +41,7 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Params Count" Margin="0 0 10 0" HorizontalAlignment="Left"></Label>
-                <TextBox Grid.Column="1" Text="{Binding ElementName=propsWindow, Path=Method.ParamsCount}"></TextBox>
+                <TextBox Grid.Column="1" Text="{Binding ElementName=PropsWindow, Path=Method.ParamsCount}"></TextBox>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -49,7 +49,7 @@
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Label Grid.Column="0" Content="Time" Margin="0 0 10 0" HorizontalAlignment="Left"></Label>
-                <TextBox Grid.Column="1" Text="{Binding ElementName=propsWindow, Path=Method.Time}"></TextBox>
+                <TextBox Grid.Column="1" Text="{Binding ElementName=PropsWindow, Path=Method.Time}"></TextBox>
             </Grid>
         </StackPanel>
         <Grid Grid.Row="1" Margin="10">
