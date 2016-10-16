@@ -71,6 +71,21 @@ namespace XmlParserWpf
             Close();
         }
 
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            FilesList.SelectedIndex = 0;    // start closing from 1st file
+            while (FilesList.Count > 0)
+            {
+                if (CanCloseFile(FilesList.SelectedFile))   // ask user here
+                    FilesList.RemoveSelected();
+                else
+                {
+                    e.Cancel = true;
+                    return;             // <- user aborted closing
+                }
+            }
+        }
+
         private void Close_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = (FilesList.Count > 0);
@@ -87,16 +102,10 @@ namespace XmlParserWpf
             if (file.IsSaved)
                 return true;
 
-            var closeAnswer = MessageBox.Show("?", "Close unsaved file?", MessageBoxButton.YesNo,
+            var closeAnswer = MessageBox.Show("File is unsaved.\nDo you really want to close it ?", "Warning?", MessageBoxButton.YesNo,
                 MessageBoxImage.Exclamation);
 
             return (closeAnswer == MessageBoxResult.Yes);
-        }
-
-        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            // TODO: check all tabs to be saved
-            // e.Cancel = true;
         }
 
         private void SaveAs_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -131,6 +140,8 @@ namespace XmlParserWpf
             FilesList.SelectedFile.Save();
         }
     }
+
+    // Custom commands
 
     internal static partial class CustomCommands
     {

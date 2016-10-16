@@ -46,7 +46,7 @@ namespace XmlParserWpf
 
             RemoveAt(SelectedIndex);
 
-            if (Count < 0)
+            if (Count == 0)
                 SelectedIndex = NoneSelection;
         }
     }

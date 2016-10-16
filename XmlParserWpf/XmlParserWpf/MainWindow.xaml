@@ -14,7 +14,6 @@
         <CommandBinding Command="Save" CanExecute="Save_OnCanExecute" Executed="Save_OnExecuted" />
         <CommandBinding Command="SaveAs" CanExecute="SaveAs_OnCanExecute" Executed="SaveAs_OnExecuted" />
         <CommandBinding Command="local:CustomCommands.Close" CanExecute="Close_OnCanExecute" Executed="Close_OnExecuted" />
-        <!-- TODO: more CommandBindings -->
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted" />
     </Window.CommandBindings>
 
@@ -29,7 +28,6 @@
                 <MenuItem Header="Open" Command="Open"/>
                 <MenuItem Header="Save" Command="Save"/>
                 <MenuItem Header="Save as" Command="SaveAs"/>
-                <!-- TODO: more FileMenuItems -->
                 <MenuItem Header="Close" Command="local:CustomCommands.Close"/>
                 <Separator />
                 <MenuItem Header="Exit" Command="local:CustomCommands.Exit"/>
