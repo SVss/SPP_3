@@ -150,14 +150,34 @@ namespace XmlParserWpf
         private void FileTreeItem_OnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem item = sender as TreeViewItem;
-            if (item == null) return;
-            if (!item.IsSelected) return;
-            if (FilesList.SelectedFile.SelectedMethod == null) return;
+            if ((item == null) || (!item.IsSelected)
+                || (FilesList.SelectedFile.SelectedMethod == null))
+                return;
 
             var propertiesWindow = new PropertiesWindow(FilesList.SelectedFile.SelectedMethod);
             propertiesWindow.ShowDialog();
 
             e.Handled = true;
+        }
+
+        private void ExpandAll_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void ExpandAll_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            FilesList.SelectedFile.ExpandAll();
+        }
+
+        private void CollapseAll_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = true;
+        }
+
+        private void CollapseAll_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            FilesList.SelectedFile.CollapseAll();
         }
     }
 
@@ -183,6 +203,20 @@ namespace XmlParserWpf
             {
                 new KeyGesture(Key.X, ModifierKeys.Alt)
             }
+        );
+
+        public static RoutedUICommand ExpandAll = new RoutedUICommand(
+            "Expand all",
+            "ExpandAll",
+            typeof(CustomCommands),
+            new InputGestureCollection()
+        );
+
+        public static RoutedUICommand CollapseAll = new RoutedUICommand(
+            "Collapse all",
+            "CollapseAll",
+            typeof(CustomCommands),
+            new InputGestureCollection()
         );
     }
 }

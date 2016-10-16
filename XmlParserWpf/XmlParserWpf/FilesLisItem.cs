@@ -16,7 +16,8 @@ namespace XmlParserWpf
         private string _path;
         private bool _isSaved;
         private MethodsListItem _selectedMethod;
-        
+        private bool _isExpanded;
+
         public string Path
         {
             get { return _path; }
@@ -52,6 +53,20 @@ namespace XmlParserWpf
                 _selectedMethod = value;
                 OnPropertyChanged("SelectedMethod");
             }
+        }
+
+        public bool IsExpanded { get; private set; } = true;
+
+        public void ExpandAll()
+        {
+            IsExpanded = true;
+            OnPropertyChanged("IsExpanded");
+        }
+
+        public void CollapseAll()
+        {
+            IsExpanded = false;
+            OnPropertyChanged("IsExpanded");
         }
 
         public static FilesListItem LoadFromFile(string path)

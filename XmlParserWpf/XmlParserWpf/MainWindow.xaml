@@ -15,6 +15,8 @@
         <CommandBinding Command="SaveAs" CanExecute="SaveAs_OnCanExecute" Executed="SaveAs_OnExecuted"/>
         <CommandBinding Command="local:CustomCommands.Close" CanExecute="Close_OnCanExecute" Executed="Close_OnExecuted"/>
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted"/>
+        <CommandBinding Command="local:CustomCommands.ExpandAll" CanExecute="ExpandAll_OnCanExecute" Executed="ExpandAll_OnExecuted"/>
+        <CommandBinding Command="local:CustomCommands.CollapseAll" CanExecute="CollapseAll_OnCanExecute" Executed="CollapseAll_OnExecuted"/>
     </Window.CommandBindings>
 
     <Grid>
@@ -72,7 +74,7 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TreeView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" SelectedItemChanged="FileTreeView_OnSelectedItemChanged">
+                        <TreeView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Name="FileTreeView"  SelectedItemChanged="FileTreeView_OnSelectedItemChanged">
                             <TreeView.DataContext>
                                 <Binding ElementName="mainWindow" Path="FilesList.SelectedFile"/>
                             </TreeView.DataContext>
@@ -83,6 +85,7 @@
 
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="{x:Type TreeViewItem}">
+                                    <Setter Property="IsExpanded" Value="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile.IsExpanded}"></Setter>
                                     <EventSetter Event="PreviewMouseDoubleClick" Handler="FileTreeItem_OnPreviewMouseDoubleClick"></EventSetter>
                                 </Style>
                             </TreeView.ItemContainerStyle>
@@ -118,9 +121,17 @@
                                     </TextBlock>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
+
+                            <TreeView.ContextMenu>
+                                <ContextMenu>
+                                    <MenuItem Command="local:CustomCommands.ExpandAll"></MenuItem>
+                                    <MenuItem Command="local:CustomCommands.CollapseAll"></MenuItem>
+                                </ContextMenu>
+                            </TreeView.ContextMenu>
+
                         </TreeView>
                         <!-- Check saved state: -->
-                        <CheckBox Grid.Row="1" Grid.Column="0">
+                        <!--<CheckBox Grid.Row="1" Grid.Column="0">
                             <CheckBox.IsChecked>
                                 <Binding  ElementName="mainWindow" Path="FilesList.SelectedFile.IsSaved"/>
                             </CheckBox.IsChecked>
@@ -128,14 +139,14 @@
                         </CheckBox>
                         <TextBlock Grid.Row="1" Grid.Column="1">
                             <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} (params={1} package={2} time={3})">
+                                <MultiBinding StringFormat="Selected: {0} (params={1} package={2} time={3})">
                                     <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Name"></Binding>
                                     <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.ParamsCount"></Binding>
                                     <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Package"></Binding>
                                     <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Time"></Binding>
                                 </MultiBinding>
                             </TextBlock.Text>
-                        </TextBlock>
+                        </TextBlock>-->
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
