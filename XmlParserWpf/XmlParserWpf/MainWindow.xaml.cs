@@ -154,7 +154,12 @@ namespace XmlParserWpf
             if (!item.IsSelected) return;
             if (FilesList.SelectedFile.SelectedMethod == null) return;
 
-            MessageBox.Show("Method properties are shown"); // TODO: open properties form here
+            var propertiesWindow = new PropertiesWindow
+            {
+                Method = FilesList.SelectedFile.SelectedMethod
+            };
+            propertiesWindow.ShowDialog();
+
             e.Handled = true;
         }
     }

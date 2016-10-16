@@ -102,7 +102,7 @@ namespace TracerLibXmlParser
         }
     }
 
-    public class MethodsListItem: INotifyPropertyChanged
+    public class MethodsListItem: INotifyPropertyChanged    // TODO: implement ICloneable
     {
         private string _name;
         private string _package;
