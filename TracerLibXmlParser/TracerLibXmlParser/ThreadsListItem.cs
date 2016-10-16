@@ -68,7 +68,7 @@ namespace TracerLibXmlParser
 
             foreach (XmlElement child in xe.ChildNodes)
             {
-                result.Methods.Add(MethodsListItem.FromXmlElement(child));
+                result.Methods.Add(MethodsListItem.FromXmlElement(child, result));
             }
 
             return result;

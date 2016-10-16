@@ -15,6 +15,8 @@ namespace TracerLibXmlParser
         private long _time;
         public List<MethodsListItem> Nested { get; }
 
+        public object Parent { get; private set; }
+
         public string Name
         {
             get { return _name; }
@@ -69,7 +71,7 @@ namespace TracerLibXmlParser
 
         // Public
 
-        public static MethodsListItem FromXmlElement(XmlElement xe)
+        public static MethodsListItem FromXmlElement(XmlElement xe, object parent = null)
         {
             if (xe.Name != XmlConstants.MethodTag)
                 throw new BadXmlException();
@@ -101,9 +103,10 @@ namespace TracerLibXmlParser
 
             foreach (XmlElement child in xe.ChildNodes)
             {
-                result.Nested.Add(FromXmlElement(child));
+                result.Nested.Add(FromXmlElement(child, result));
             }
 
+            result.Parent = parent;
             return result;
         }
 
