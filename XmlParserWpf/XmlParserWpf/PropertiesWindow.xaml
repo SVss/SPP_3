@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XmlParserWpf"
         mc:Ignorable="d"
-        Title="{Binding ElementName=propsWindow, Path=Method.Name}" Height="243" Width="254" Name="propsWindow">
+        Title="Methods Properties" Height="243" Width="254" Name="propsWindow">
 
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Ok" CanExecute="Ok_OnCanExecute" Executed="Ok_OnExecuted" />

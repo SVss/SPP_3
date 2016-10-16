@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using TracerLibXmlParser;
 
 namespace XmlParserWpf
@@ -8,25 +6,22 @@ namespace XmlParserWpf
     /// <summary>
     /// Interaction logic for PropertiesWindow.xaml
     /// </summary>
-    public partial class PropertiesWindow: INotifyPropertyChanged
+    public partial class PropertiesWindow
     {
-        private MethodsListItem _method;
+        private readonly MethodsListItem _sourceMethod;
+        public MethodsListItem Method { get; private set; }
 
-        public MethodsListItem Method
-        {
-            get { return _method; }
-            set
-            {
-                _method = value;
-                OnPropertyChanged("Method");
-            }
-        }
+        // Public
 
-        public PropertiesWindow()
+        public PropertiesWindow(MethodsListItem method)
         {
+            Method = method.Clone() as MethodsListItem;
+            _sourceMethod = method;
+
             InitializeComponent();
-            // TODO: make copy of MethodsListItem properties to reset value => implement ICloneable in MethodsListItem
         }
+
+        // Private
 
         private void Ok_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -35,7 +30,12 @@ namespace XmlParserWpf
 
         private void Ok_OnExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            // TODO: save results to real method
+            _sourceMethod.Name = Method.Name;
+            _sourceMethod.Package = Method.Package;
+            _sourceMethod.ParamsCount = Method.ParamsCount;
+            _sourceMethod.Time = Method.Time;
+
+            Close();
         }
 
         private void Cancel_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -55,14 +55,10 @@ namespace XmlParserWpf
 
         private void Reset_OnExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            // TODO: reset fields by cloning again
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            Method.Name = _sourceMethod.Name;
+            Method.Package = _sourceMethod.Package;
+            Method.ParamsCount = _sourceMethod.ParamsCount;
+            Method.Time = _sourceMethod.Time;
         }
     }
 

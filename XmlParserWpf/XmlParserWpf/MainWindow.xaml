@@ -108,7 +108,7 @@
                                     </HierarchicalDataTemplate.ItemsSource>
                                     <TextBlock>
                                         <TextBlock.Text>
-                                            <MultiBinding StringFormat="{}{0} (params={1} package={2}) time={3}">
+                                            <MultiBinding StringFormat="{}{0} (params={1} package={2} time={3})">
                                                 <Binding Path="Name"/>
                                                 <Binding Path="ParamsCount"/>
                                                 <Binding Path="Package"/>
@@ -128,7 +128,7 @@
                         </CheckBox>
                         <TextBlock Grid.Row="1" Grid.Column="1">
                             <TextBlock.Text>
-                                <MultiBinding StringFormat="{}{0} (params={1} package={2}) time={3}">
+                                <MultiBinding StringFormat="{}{0} (params={1} package={2} time={3})">
                                     <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Name"></Binding>
                                     <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.ParamsCount"></Binding>
                                     <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Package"></Binding>
