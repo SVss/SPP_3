@@ -10,7 +10,22 @@ namespace XmlParserWpf
 {
     public class FilesListItem: INotifyPropertyChanged
     {
-        public string Path { get; private set; }
+        private string _path;
+        public string Path
+        {
+            get { return _path; }
+            private set
+            {
+                bool changed = _path != value;
+                _path = value;
+                if (changed)
+                {
+                    OnPropertyChanged("Path");
+                    OnPropertyChanged("Name");
+                }
+            }
+        }
+
         public string Name => System.IO.Path.GetFileName(Path);
         public List<ThreadsListItem> ThreadsList { get; }
         private bool _isSaved;
@@ -53,6 +68,12 @@ namespace XmlParserWpf
             result.FromXmlDocument(doc);
 
             return result;
+        }
+
+        public void SaveAs(string path)
+        {
+            Path = path;
+            Save();
         }
 
         public void Save()

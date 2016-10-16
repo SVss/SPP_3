@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -18,6 +19,12 @@ namespace XmlParserWpf
         private static readonly OpenFileDialog OpenFileDialog = new OpenFileDialog()
         {
             Title = @"Choose file to open",
+            Filter = @"XML-file|*.xml"
+        };
+
+        private static readonly SaveFileDialog SaveFileDialog = new SaveFileDialog()
+        {
+            Title = @"Choose location to save to",
             Filter = @"XML-file|*.xml"
         };
 
@@ -91,7 +98,29 @@ namespace XmlParserWpf
             // TODO: check all tabs to be saved
             // e.Cancel = true;
         }
-        
+
+        private void SaveAs_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (FilesList.Count > 0);
+        }
+
+        private void SaveAs_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            DialogResult saveResult = SaveFileDialog.ShowDialog();
+            if (saveResult != System.Windows.Forms.DialogResult.OK)
+                return;
+
+            string path = SaveFileDialog.FileNames[0];
+            try
+            {
+                FilesList.SelectedFile.SaveAs(path);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Can't save file", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
         private void Save_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
             e.CanExecute = (FilesList.Count > 0) && (!FilesList.SelectedFile.IsSaved);  // + check if files exists
