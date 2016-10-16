@@ -55,11 +55,20 @@ namespace XmlParserWpf
             return result;
         }
 
-        public void OnChanged()
+        public void Save()
         {
-            IsSaved = false;
-        }
+            XmlDocument result = new XmlDocument();
+            XmlElement root = (XmlElement)result.AppendChild(result.CreateElement(XmlConstants.RootTag));
 
+            foreach (ThreadsListItem item in ThreadsList)
+            {
+                root.AppendChild(item.ToXmlElement(result));
+            }
+
+            result.Save(Path);
+            IsSaved = true;
+        }
+        
         // Internal
 
         private void FromXmlDocument(XmlDocument doc)

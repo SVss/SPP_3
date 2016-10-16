@@ -75,7 +75,7 @@ namespace XmlParserWpf
                 FilesList.RemoveSelected();
         }
 
-        private bool CanCloseFile(FilesListItem file)
+        private static bool CanCloseFile(FilesListItem file)
         {
             if (file.IsSaved)
                 return true;
@@ -90,6 +90,16 @@ namespace XmlParserWpf
         {
             // TODO: check all tabs to be saved
             // e.Cancel = true;
+        }
+        
+        private void Save_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
+        {
+            e.CanExecute = (FilesList.Count > 0) && (!FilesList.SelectedFile.IsSaved);  // + check if files exists
+        }
+
+        private void Save_OnExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            FilesList.SelectedFile.Save();
         }
     }
 

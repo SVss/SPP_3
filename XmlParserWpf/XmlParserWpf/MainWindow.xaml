@@ -11,6 +11,7 @@
 
     <Window.CommandBindings>
         <CommandBinding Command="Open" CanExecute="Open_OnCanExecute" Executed="Open_OnExecuted" />
+        <CommandBinding Command="Save" CanExecute="Save_OnCanExecute" Executed="Save_OnExecuted" />
         <CommandBinding Command="local:CustomCommands.Close" CanExecute="Close_OnCanExecute" Executed="Close_OnExecuted" />
         <!-- TODO: more CommandBindings -->
         <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted" />
@@ -23,16 +24,17 @@
         </Grid.RowDefinitions>
         
         <Menu Grid.Row="0">
-            <MenuItem Name="FileMenu" Header="File">
-                <MenuItem Name="OpenFileMenuItem" Header="Open" Command="Open"/>
+            <MenuItem Header="File">
+                <MenuItem Header="Open" Command="Open"/>
+                <MenuItem Header="Save" Command="Save"/>
                 <!-- TODO: more FileMenuItems -->
-                <MenuItem Name="CloseFileMenuItem" Header="Close" Command="local:CustomCommands.Close"/>
+                <MenuItem Header="Close" Command="local:CustomCommands.Close"/>
                 <Separator />
-                <MenuItem Name="ExitFileMenuItem" Header="Exit" Command="local:CustomCommands.Exit"/>
+                <MenuItem Header="Exit" Command="local:CustomCommands.Exit"/>
             </MenuItem>
         </Menu>
 
-        <TabControl Grid.Row="1" Name="FileTabs" SelectedIndex="{Binding ElementName=mainWindow, Path=FilesList.SelectedIndex}">
+        <TabControl Grid.Row="1" SelectedIndex="{Binding ElementName=mainWindow, Path=FilesList.SelectedIndex}">
             <TabControl.ItemsSource>
                 <Binding ElementName="mainWindow" Path="FilesList"/>
             </TabControl.ItemsSource>
@@ -62,7 +64,7 @@
                             <RowDefinition Height="Auto"></RowDefinition>
                         </Grid.RowDefinitions>
                         
-                        <TreeView Grid.Row="0" x:Name="FileTree" DataContext="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile}" ItemsSource="{Binding ThreadsList}">
+                        <TreeView Grid.Row="0" DataContext="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile}" ItemsSource="{Binding ThreadsList}">
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}" ItemsSource="{Binding Methods}">
                                     <TextBlock Text="{Binding Path=AsString}"></TextBlock>

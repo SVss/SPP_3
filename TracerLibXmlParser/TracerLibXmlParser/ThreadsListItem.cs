@@ -48,6 +48,19 @@ namespace TracerLibXmlParser
             return result;
         }
 
+        public XmlElement ToXmlElement(XmlDocument document)
+        {
+            XmlElement result = document.CreateElement(XmlConstants.ThreadTag);
+            result.SetAttribute(XmlConstants.ThreadIdAttribute, Id.ToString());
+            result.SetAttribute(XmlConstants.TimeAttribute, Time.ToString());
+
+            foreach (MethodsListItem item in Methods)
+            {
+                result.AppendChild(item.ToXmlElement(document));
+            }
+            return result;
+        }
+
         // Internal
 
         private ThreadsListItem()
@@ -103,6 +116,22 @@ namespace TracerLibXmlParser
                 result.Nested.Add(FromXmlElement(child));
             }
 
+            return result;
+        }
+
+        public XmlElement ToXmlElement(XmlDocument document)
+        {
+            XmlElement result = document.CreateElement(XmlConstants.MethodTag);
+            result.SetAttribute(XmlConstants.NameAttribute, Name);
+            result.SetAttribute(XmlConstants.TimeAttribute, Time.ToString());
+
+            result.SetAttribute(XmlConstants.PackageAttribute, Package);
+            result.SetAttribute(XmlConstants.ParamsAttribute, ParamsCount.ToString());
+
+            foreach (var child in Nested)
+            {
+                result.AppendChild(child.ToXmlElement(document));
+            }
             return result;
         }
 
