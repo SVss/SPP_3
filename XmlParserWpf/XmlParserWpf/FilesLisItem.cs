@@ -10,34 +10,47 @@ namespace XmlParserWpf
 {
     public class FilesListItem: INotifyPropertyChanged
     {
+        public string Name => System.IO.Path.GetFileName(Path);
+        public List<ThreadsListItem> ThreadsList { get; }
+
         private string _path;
+        private bool _isSaved;
+        private MethodsListItem _selectedMethod;
+        
         public string Path
         {
             get { return _path; }
             private set
             {
-                if(_path != value) {
-                    _path = value;
-                    OnPropertyChanged("Path");
-                    OnPropertyChanged("Name");
-                }
+                if (_path == value)
+                    return;
+
+                _path = value;
+                OnPropertyChanged("Path");
+                OnPropertyChanged("Name");
             }
         }
-
-        public string Name => System.IO.Path.GetFileName(Path);
-        public List<ThreadsListItem> ThreadsList { get; }
-        private bool _isSaved;
 
         public bool IsSaved
         {
             get { return _isSaved; }
             set
             {
-                if (_isSaved != value)
-                {
-                    _isSaved = value;
-                    OnPropertyChanged("IsSaved");
-                }
+                if (_isSaved == value)
+                    return;
+
+                _isSaved = value;
+                OnPropertyChanged("IsSaved");
+            }
+        }
+
+        public MethodsListItem SelectedMethod
+        {
+            get { return _selectedMethod; }
+            set
+            {
+                _selectedMethod = value;
+                OnPropertyChanged("SelectedMethod");
             }
         }
 

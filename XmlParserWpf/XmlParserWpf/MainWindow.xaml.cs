@@ -139,6 +139,12 @@ namespace XmlParserWpf
         {
             FilesList.SelectedFile.Save();
         }
+        
+        private void FileTreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+        {
+            if (FilesList.SelectedFile != null)
+                FilesList.SelectedFile.SelectedMethod = e.NewValue as MethodsListItem;
+        }
     }
 
     // Custom commands
@@ -164,7 +170,5 @@ namespace XmlParserWpf
                 new KeyGesture(Key.X, ModifierKeys.Alt)
             }
         );
-
-        // TODO: more commands
     }
 }

@@ -34,7 +34,11 @@
             </MenuItem>
         </Menu>
 
-        <TabControl Grid.Row="1" SelectedIndex="{Binding ElementName=mainWindow, Path=FilesList.SelectedIndex}">
+        <TabControl Grid.Row="1">
+            <TabControl.SelectedIndex>
+                <Binding ElementName="mainWindow" Path="FilesList.SelectedIndex"/>
+            </TabControl.SelectedIndex>
+            
             <TabControl.ItemsSource>
                 <Binding ElementName="mainWindow" Path="FilesList"/>
             </TabControl.ItemsSource>
@@ -68,15 +72,15 @@
                             <RowDefinition Height="Auto"/>
                         </Grid.RowDefinitions>
 
-                        <TreeView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2">
+                        <TreeView Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" SelectedItemChanged="FileTreeView_OnSelectedItemChanged">
                             <TreeView.DataContext>
                                 <Binding ElementName="mainWindow" Path="FilesList.SelectedFile"/>
                             </TreeView.DataContext>
-                            
+
                             <TreeView.ItemsSource>
                                 <Binding Path="ThreadsList"/>
                             </TreeView.ItemsSource>
-                            
+
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}">
                                     <HierarchicalDataTemplate.ItemsSource>
@@ -110,10 +114,22 @@
                             </TreeView.Resources>
                         </TreeView>
                         <!-- Check saved state: -->
-                        <CheckBox Grid.Row="1" Grid.Column="0" IsChecked="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile.IsSaved}">
+                        <CheckBox Grid.Row="1" Grid.Column="0">
+                            <CheckBox.IsChecked>
+                                <Binding  ElementName="mainWindow" Path="FilesList.SelectedFile.IsSaved"/>
+                            </CheckBox.IsChecked>
                             <TextBlock Text="Saved"></TextBlock>
                         </CheckBox>
-                        <Button Grid.Row="1" Grid.Column="1" Click="PropertiesButton_OnClick"></Button>
+                        <TextBlock Grid.Row="1" Grid.Column="1">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="{}{0} (params={1} package={2}) time={3}">
+                                    <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Name"></Binding>
+                                    <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.ParamsCount"></Binding>
+                                    <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Package"></Binding>
+                                    <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Time"></Binding>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
