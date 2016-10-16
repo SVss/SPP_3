@@ -85,11 +85,11 @@
 
                             <TreeView.ItemContainerStyle>
                                 <Style TargetType="{x:Type TreeViewItem}">
-                                    <Setter Property="IsExpanded" Value="{Binding ElementName=mainWindow, Path=FilesList.SelectedFile.IsExpanded}"></Setter>
+                                    <Setter Property="IsExpanded" Value="{Binding Path=Expanded, Mode=TwoWay}"></Setter>
                                     <EventSetter Event="PreviewMouseDoubleClick" Handler="FileTreeItem_OnPreviewMouseDoubleClick"></EventSetter>
                                 </Style>
                             </TreeView.ItemContainerStyle>
-
+                            
                             <TreeView.Resources>
                                 <HierarchicalDataTemplate DataType="{x:Type viewModel:ThreadsListItem}">
                                     <HierarchicalDataTemplate.ItemsSource>

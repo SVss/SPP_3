@@ -7,15 +7,11 @@ using TracerLib;
 
 namespace XmlParserWpf.ViewModel
 {
-    internal interface ITimed
-    {
-        long Time { get; set; }
-    }
-
-    public class ThreadsListItem: ITimed, INotifyPropertyChanged
+    public class ThreadsListItem: ITimed, IExpandable, IChangeable, INotifyPropertyChanged
     {
         private long _id;
         private long _time;
+        private bool _expanded;
         public List<MethodsListItem> Methods { get; }
 
         public long Id
@@ -28,6 +24,7 @@ namespace XmlParserWpf.ViewModel
                 _id = value;
 
                 OnPropertyChanged("Id");
+                OnChange();
             }
         }
 
@@ -41,6 +38,38 @@ namespace XmlParserWpf.ViewModel
 
                 _time = value;
                 OnPropertyChanged("Time");
+                OnChange();
+            }
+        }
+
+        public bool Expanded
+        {
+            get { return _expanded; }
+            set
+            {
+                if (_expanded == value)
+                    return;
+
+                _expanded = value;
+                OnPropertyChanged("Expanded");
+            }
+        }
+
+        public void ExpandAll()
+        {
+            Expanded = true;
+            foreach (var method in Methods)
+            {
+                method.ExpandAll();
+            }
+        }
+
+        public void CollapseAll()
+        {
+            Expanded = false;
+            foreach (var method in Methods)
+            {
+                method.CollapseAll();
             }
         }
 
@@ -74,7 +103,7 @@ namespace XmlParserWpf.ViewModel
             foreach (XmlElement child in xe.ChildNodes)
             {
                 var method = MethodsListItem.FromXmlElement(child, result);
-                method.PropertyChanged += delegate { result.OnPropertyChanged(); };
+                method.ChangeEvent += delegate { result.OnChange(); };
 
                 result.Methods.Add(method);
             }
@@ -95,11 +124,13 @@ namespace XmlParserWpf.ViewModel
             return result;
         }
 
-        // Internal
+        // IChangeable
 
-        private ThreadsListItem()
+        public event ChangeDelegate ChangeEvent;
+
+        public void OnChange()
         {
-            Methods = new List<MethodsListItem>();
+            ChangeEvent?.Invoke();
         }
 
         // INotifyPropertyChange
@@ -109,6 +140,13 @@ namespace XmlParserWpf.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        // Internal
+
+        private ThreadsListItem()
+        {
+            Methods = new List<MethodsListItem>();
         }
     }
 }

@@ -7,12 +7,13 @@ using TracerLib;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class MethodsListItem : ITimed, INotifyPropertyChanged, ICloneable   // without Nested reference
+    public class MethodsListItem : ITimed, IExpandable, IChangeable, INotifyPropertyChanged, ICloneable   // without Nested reference
     {
         private string _name;
         private string _package;
         private long _paramsCount;
         private long _time;
+        private bool _expanded;
         public List<MethodsListItem> Nested { get; }
 
         public object Parent { get; private set; }
@@ -27,6 +28,7 @@ namespace XmlParserWpf.ViewModel
 
                 _name = value;
                 OnPropertyChanged("Name");
+                OnChange();
             }
         }
 
@@ -40,6 +42,7 @@ namespace XmlParserWpf.ViewModel
 
                 _package = value;
                 OnPropertyChanged("Package");
+                OnChange();
             }
         }
 
@@ -53,6 +56,7 @@ namespace XmlParserWpf.ViewModel
 
                 _paramsCount = value;
                 OnPropertyChanged("ParamsCount");
+                OnChange();
             }
         }
 
@@ -68,10 +72,42 @@ namespace XmlParserWpf.ViewModel
                 _time = value;
 
                 OnPropertyChanged("Time");
+                OnChange();
 
                 ITimed timed = Parent as ITimed;
                 if (timed != null)
                     timed.Time += delta;
+            }
+        }
+
+        public bool Expanded
+        {
+            get { return _expanded; }
+            set
+            {
+                if (_expanded == value)
+                    return;
+
+                _expanded = value;
+                OnPropertyChanged("Expanded");
+            }
+        }
+
+        public void ExpandAll()
+        {
+            Expanded = true;
+            foreach (var method in Nested)
+            {
+                method.ExpandAll();
+            }
+        }
+
+        public void CollapseAll()
+        {
+            Expanded = false;
+            foreach (var method in Nested)
+            {
+                method.CollapseAll();
             }
         }
 
@@ -110,7 +146,7 @@ namespace XmlParserWpf.ViewModel
             foreach (XmlElement child in xe.ChildNodes)
             {
                 var nested = FromXmlElement(child, result);
-                nested.PropertyChanged += delegate { result.OnPropertyChanged(); };
+                nested.ChangeEvent += delegate { result.OnChange(); };
 
                 result.Nested.Add(nested);
             }
@@ -135,11 +171,13 @@ namespace XmlParserWpf.ViewModel
             return result;
         }
 
-        // Internal 
+        // IChangeable
 
-        private MethodsListItem()
+        public event ChangeDelegate ChangeEvent;
+
+        public void OnChange()
         {
-            Nested = new List<MethodsListItem>();
+            ChangeEvent?.Invoke();
         }
 
         // INotifyPropertyChange
@@ -163,6 +201,13 @@ namespace XmlParserWpf.ViewModel
                 Time = Time
             };
             return result;
+        }
+
+        // Internal 
+
+        private MethodsListItem()
+        {
+            Nested = new List<MethodsListItem>();
         }
     }
 }

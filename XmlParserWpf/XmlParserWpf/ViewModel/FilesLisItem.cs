@@ -53,18 +53,20 @@ namespace XmlParserWpf.ViewModel
             }
         }
 
-        public bool IsExpanded { get; private set; } = true;
-
         public void ExpandAll()
         {
-            IsExpanded = true;
-            OnPropertyChanged("IsExpanded");
+            foreach (var thread in ThreadsList)
+            {
+                thread.ExpandAll();
+            }
         }
 
         public void CollapseAll()
         {
-            IsExpanded = false;
-            OnPropertyChanged("IsExpanded");
+            foreach (var thread in ThreadsList)
+            {
+                thread.CollapseAll();
+            }
         }
 
         public static FilesListItem LoadFromFile(string path)
@@ -113,7 +115,16 @@ namespace XmlParserWpf.ViewModel
             result.Save(Path);
             IsSaved = true;
         }
-        
+
+        // INotifyPropertyChange
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         // Internal
 
         private void FromXmlDocument(XmlDocument doc)
@@ -127,7 +138,7 @@ namespace XmlParserWpf.ViewModel
             foreach (XmlElement child in xe.ChildNodes)
             {
                 var thread = ThreadsListItem.FromXmlElement(child);
-                thread.PropertyChanged += delegate { IsSaved = false; };
+                thread.ChangeEvent += delegate { IsSaved = false; };
                 ThreadsList.Add(thread);
             }
 
@@ -137,15 +148,6 @@ namespace XmlParserWpf.ViewModel
         private FilesListItem()
         {
             ThreadsList = new List<ThreadsListItem>();
-        }
-
-        // INotifyPropertyChange
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
