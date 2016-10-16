@@ -25,8 +25,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _path = value;
-                OnPropertyChanged("Path");
-                OnPropertyChanged("Name");
+                OnPropertyChanged();
             }
         }
 
@@ -39,7 +38,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _isSaved = value;
-                OnPropertyChanged("IsSaved");
+                OnPropertyChanged();
             }
         }
 
@@ -49,7 +48,7 @@ namespace XmlParserWpf.ViewModel
             set
             {
                 _selectedMethod = value;
-                OnPropertyChanged("SelectedMethod");
+                OnPropertyChanged();
             }
         }
 

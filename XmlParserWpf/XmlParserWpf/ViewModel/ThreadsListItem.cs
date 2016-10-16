@@ -23,7 +23,7 @@ namespace XmlParserWpf.ViewModel
                     return;
                 _id = value;
 
-                OnPropertyChanged("Id");
+                OnPropertyChanged();
                 OnChange();
             }
         }
@@ -37,11 +37,11 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _time = value;
-                OnPropertyChanged("Time");
+                OnPropertyChanged();
                 OnChange();
             }
         }
-
+        
         public bool Expanded
         {
             get { return _expanded; }
@@ -51,7 +51,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _expanded = value;
-                OnPropertyChanged("Expanded");
+                OnPropertyChanged();
             }
         }
 
