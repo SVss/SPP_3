@@ -1,15 +1,43 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
 using System.Xml;
 using TracerLib;
 
 namespace TracerLibXmlParser
 {
-    public class ThreadsListItem
+    public class ThreadsListItem: INotifyPropertyChanged
     {
-        public long Id { get; set; }
-        public long Time { get; set; }
+        private long _id;
+        private long _time;
         public List<MethodsListItem> Methods { get; }
+
+        public long Id
+        {
+            get { return _id; }
+            set
+            {
+                if (_id == value)
+                    return;
+                _id = value;
+
+                OnPropertyChanged("Id");
+            }
+        }
+
+        public long Time
+        {
+            get { return _time; }
+            set
+            {
+                if (_time == value)
+                    return;
+
+                _time = value;
+                OnPropertyChanged("Time");
+            }
+        }
 
         // Public
 
@@ -65,15 +93,74 @@ namespace TracerLibXmlParser
         {
             Methods = new List<MethodsListItem>();
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
 
-    public class MethodsListItem
+    public class MethodsListItem: INotifyPropertyChanged
     {
-        public string Name { get; set; }
-        public string Package { get; set; }
-        public long ParamsCount { get; set; }
-        public long Time { get; set; }
+        private string _name;
+        private string _package;
+        private long _paramsCount;
+        private long _time;
         public List<MethodsListItem> Nested { get; }
+
+        public string Name
+        {
+            get { return _name; }
+            set
+            {
+                if (_name == value)
+                    return;
+
+                _name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public string Package
+        {
+            get { return _package; }
+            set
+            {
+                if (_package == value)
+                    return;
+
+                _package = value;
+                OnPropertyChanged("Package");
+            }
+        }
+
+        public long ParamsCount
+        {
+            get { return _paramsCount; }
+            set
+            {
+                if (_paramsCount == value)
+                    return;
+
+                _paramsCount = value;
+                OnPropertyChanged("ParamsCount");
+            }
+        }
+
+        public long Time
+        {
+            get { return _time; }
+            set
+            {
+                if (_time == value)
+                    return;
+
+                _time = value;
+                OnPropertyChanged("Time");
+            }
+        }
 
         // Public
 
@@ -136,6 +223,13 @@ namespace TracerLibXmlParser
         private MethodsListItem()
         {
             Nested = new List<MethodsListItem>();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }
