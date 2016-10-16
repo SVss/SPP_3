@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XmlParserWpf"
         mc:Ignorable="d"
-        Title="{Binding ElementName=propsWindow, Path=Method.Name}" Height="300" Width="300" Name="propsWindow">
+        Title="{Binding ElementName=propsWindow, Path=Method.Name}" Height="243" Width="254" Name="propsWindow">
 
     <Window.CommandBindings>
         <CommandBinding Command="local:CustomCommands.Ok" CanExecute="Ok_OnCanExecute" Executed="Ok_OnExecuted" />
@@ -18,8 +18,40 @@
             <RowDefinition/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <!-- TODO: show properties here -->
-        <TextBlock Text="{Binding ElementName=propsWindow, Path=Method.Name}"></TextBlock>
+        <StackPanel Grid.Row="0" Margin="10">
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Name" Margin="0 0 10 0" HorizontalAlignment="Left"></Label>
+                <TextBox Grid.Column="1" Text="{Binding ElementName=propsWindow, Path=Method.Name}"></TextBox>
+            </Grid>
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Package" Margin="0 0 10 0" HorizontalAlignment="Left"></Label>
+                <TextBox Grid.Column="1" Text="{Binding ElementName=propsWindow, Path=Method.Package}"></TextBox>
+            </Grid>
+            <Grid Margin="0 0 0 10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Params Count" Margin="0 0 10 0" HorizontalAlignment="Left"></Label>
+                <TextBox Grid.Column="1" Text="{Binding ElementName=propsWindow, Path=Method.ParamsCount}"></TextBox>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="0.5*"></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="Time" Margin="0 0 10 0" HorizontalAlignment="Left"></Label>
+                <TextBox Grid.Column="1" Text="{Binding ElementName=propsWindow, Path=Method.Time}"></TextBox>
+            </Grid>
+        </StackPanel>
         <Grid Grid.Row="1" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -30,13 +62,13 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Command="local:CustomCommands.Ok">
+            <Button Grid.Column="1" Command="local:CustomCommands.Ok" MinWidth="50">
                 <Button.Content>Ok</Button.Content>
             </Button>
-            <Button Grid.Column="3" Command="local:CustomCommands.Cancel">
+            <Button Grid.Column="3" Command="local:CustomCommands.Cancel" MinWidth="50">
                 <Button.Content>Cancel</Button.Content>
             </Button>
-            <Button Grid.Column="5" Command="local:CustomCommands.Reset">
+            <Button Grid.Column="5" Command="local:CustomCommands.Reset" MinWidth="50">
                 <Button.Content>Reset</Button.Content>
             </Button>
         </Grid>

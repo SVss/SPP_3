@@ -19,9 +19,9 @@ namespace XmlParserWpf
             {
                 _method = value;
                 OnPropertyChanged("Method");
-            }   
+            }
         }
-        
+
         public PropertiesWindow()
         {
             InitializeComponent();
