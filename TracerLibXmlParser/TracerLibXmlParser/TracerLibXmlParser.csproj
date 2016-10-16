@@ -41,6 +41,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BadXmlException.cs" />
+    <Compile Include="MethodsListItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ThreadsListItem.cs" />
   </ItemGroup>
