@@ -7,7 +7,12 @@ using TracerLib;
 
 namespace TracerLibXmlParser
 {
-    public class ThreadsListItem: INotifyPropertyChanged
+    internal interface ITimed
+    {
+        long Time { get; set; }
+    }
+
+    public class ThreadsListItem: ITimed, INotifyPropertyChanged
     {
         private long _id;
         private long _time;

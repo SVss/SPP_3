@@ -7,7 +7,7 @@ using TracerLib;
 
 namespace TracerLibXmlParser
 {
-    public class MethodsListItem : INotifyPropertyChanged, ICloneable   // without Nested reference
+    public class MethodsListItem : ITimed, INotifyPropertyChanged, ICloneable   // without Nested reference
     {
         private string _name;
         private string _package;
@@ -64,8 +64,14 @@ namespace TracerLibXmlParser
                 if (_time == value)
                     return;
 
+                long delta = value - _time;
                 _time = value;
+
                 OnPropertyChanged("Time");
+
+                ITimed timed = Parent as ITimed;
+                if (timed != null)
+                    timed.Time += delta;
             }
         }
 
