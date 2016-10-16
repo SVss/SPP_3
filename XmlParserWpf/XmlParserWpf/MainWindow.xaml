@@ -66,8 +66,8 @@
                                 <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}" ItemsSource="{Binding Methods}">
                                     <TextBlock Text="{Binding Path=AsString}"></TextBlock>
                                 </HierarchicalDataTemplate>
-                                <HierarchicalDataTemplate DataType="{x:Type tracerResItems:MethodsListItem}" ItemsSource="{Binding Nested}">
-                                    <TextBlock Text="{Binding Path=AsString}"></TextBlock>
+                                    <HierarchicalDataTemplate DataType="{x:Type tracerResItems:MethodsListItem}" ItemsSource="{Binding Nested}">
+                                        <TextBlock Text="{Binding Path=AsString}"></TextBlock>
                                 </HierarchicalDataTemplate>
                             </TreeView.Resources>
                         </TreeView>
