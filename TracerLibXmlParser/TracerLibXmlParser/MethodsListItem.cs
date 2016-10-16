@@ -109,7 +109,10 @@ namespace TracerLibXmlParser
 
             foreach (XmlElement child in xe.ChildNodes)
             {
-                result.Nested.Add(FromXmlElement(child, result));
+                var nested = FromXmlElement(child, result);
+                nested.PropertyChanged += delegate { result.OnPropertyChanged(); };
+
+                result.Nested.Add(nested);
             }
 
             result.Parent = parent;

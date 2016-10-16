@@ -113,7 +113,9 @@ namespace XmlParserWpf
 
             foreach (XmlElement child in xe.ChildNodes)
             {
-                ThreadsList.Add(ThreadsListItem.FromXmlElement(child));
+                var thread = ThreadsListItem.FromXmlElement(child);
+                thread.PropertyChanged += delegate { IsSaved = false; };
+                ThreadsList.Add(thread);
             }
 
             IsSaved = true;
