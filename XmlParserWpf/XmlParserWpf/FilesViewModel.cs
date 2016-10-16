@@ -23,7 +23,7 @@ namespace XmlParserWpf
             }
         }
 
-        public FilesListItem SelectedFile => (SelectedIndex != NoneSelection ? this[SelectedIndex] : null);
+        public FilesListItem SelectedFile => ((Count > 0) && (SelectedIndex != NoneSelection)) ? this[SelectedIndex] : null;
 
         public void AddAndSelect(FilesListItem item)
         {
