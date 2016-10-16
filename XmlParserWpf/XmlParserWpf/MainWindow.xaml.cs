@@ -1,4 +1,4 @@
-﻿using System.Linq;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Input;
@@ -61,7 +61,6 @@ namespace XmlParserWpf
 
         private void Exit_OnExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            // TODO: check all tabs to be saved
             Close();
         }
 
@@ -72,22 +71,30 @@ namespace XmlParserWpf
 
         private void Close_OnExecuted(object sender, ExecutedRoutedEventArgs e)
         {
-            FilesList.RemoveSelected();
+            if (CanCloseFile(FilesList.SelectedFile) )
+                FilesList.RemoveSelected();
+        }
+
+        private bool CanCloseFile(FilesListItem file)
+        {
+            if (file.IsSaved)
+                return true;
+
+            var closeAnswer = MessageBox.Show("?", "Close unsaved file?", MessageBoxButton.YesNo,
+                MessageBoxImage.Exclamation);
+
+            return (closeAnswer == MessageBoxResult.Yes);
+        }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            // TODO: check all tabs to be saved
+            // e.Cancel = true;
         }
     }
 
-    internal static class CustomCommands
+    internal static partial class CustomCommands
     {
-        public static RoutedUICommand Open = new RoutedUICommand(
-            "Open",
-            "Open",
-            typeof(CustomCommands),
-            new InputGestureCollection()
-            {
-                new KeyGesture(Key.O, ModifierKeys.Control)
-            }
-        );
-
         public static RoutedUICommand Close = new RoutedUICommand(
             "Close",
             "Close",

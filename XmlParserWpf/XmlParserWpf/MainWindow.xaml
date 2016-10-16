@@ -6,15 +6,16 @@
         xmlns:local="clr-namespace:XmlParserWpf"
         xmlns:tracerResItems="clr-namespace:TracerLibXmlParser;assembly=TracerLibXmlParser"
         mc:Ignorable="d"
-        Title="MainWindow" Height="424.038" Width="371" Name="mainWindow">
-        
+        Title="MainWindow" Height="424.038" Width="371" Name="mainWindow"
+            Closing="MainWindow_OnClosing">
+
     <Window.CommandBindings>
-        <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted" />
-        <CommandBinding Command="local:CustomCommands.Open" CanExecute="Open_OnCanExecute" Executed="Open_OnExecuted" />
+        <CommandBinding Command="Open" CanExecute="Open_OnCanExecute" Executed="Open_OnExecuted" />
         <CommandBinding Command="local:CustomCommands.Close" CanExecute="Close_OnCanExecute" Executed="Close_OnExecuted" />
         <!-- TODO: more CommandBindings -->
+        <CommandBinding Command="local:CustomCommands.Exit" CanExecute="Exit_OnCanExecute" Executed="Exit_OnExecuted" />
     </Window.CommandBindings>
-        
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -23,7 +24,7 @@
         
         <Menu Grid.Row="0">
             <MenuItem Name="FileMenu" Header="File">
-                <MenuItem Name="OpenFileMenuItem" Header="Open" Command="local:CustomCommands.Open"/>
+                <MenuItem Name="OpenFileMenuItem" Header="Open" Command="Open"/>
                 <!-- TODO: more FileMenuItems -->
                 <MenuItem Name="CloseFileMenuItem" Header="Close" Command="local:CustomCommands.Close"/>
                 <Separator />
