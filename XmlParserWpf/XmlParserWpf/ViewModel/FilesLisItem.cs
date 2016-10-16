@@ -7,7 +7,7 @@ using TracerLib;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class FilesListItem: INotifyPropertyChanged
+    public class FilesListItem: IExpandable, INotifyPropertyChanged
     {
         public string Name => System.IO.Path.GetFileName(Path);
         public List<ThreadsListItem> ThreadsList { get; }
@@ -25,8 +25,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _path = value;
-                OnPropertyChanged("Path");
-                OnPropertyChanged("Name");
+                OnPropertyChanged();
             }
         }
 
@@ -39,7 +38,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _isSaved = value;
-                OnPropertyChanged("IsSaved");
+                OnPropertyChanged();
             }
         }
 
@@ -49,9 +48,11 @@ namespace XmlParserWpf.ViewModel
             set
             {
                 _selectedMethod = value;
-                OnPropertyChanged("SelectedMethod");
+                OnPropertyChanged();
             }
         }
+
+        public bool Expanded { get; set; } = true;
 
         public void ExpandAll()
         {

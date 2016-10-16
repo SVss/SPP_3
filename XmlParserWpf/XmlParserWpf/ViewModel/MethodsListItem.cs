@@ -27,7 +27,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _name = value;
-                OnPropertyChanged("Name");
+                OnPropertyChanged();
                 OnChange();
             }
         }
@@ -41,7 +41,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _package = value;
-                OnPropertyChanged("Package");
+                OnPropertyChanged();
                 OnChange();
             }
         }
@@ -55,7 +55,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _paramsCount = value;
-                OnPropertyChanged("ParamsCount");
+                OnPropertyChanged();
                 OnChange();
             }
         }
@@ -71,7 +71,7 @@ namespace XmlParserWpf.ViewModel
                 long delta = value - _time;
                 _time = value;
 
-                OnPropertyChanged("Time");
+                OnPropertyChanged();
                 OnChange();
 
                 ITimed timed = Parent as ITimed;
@@ -89,7 +89,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _expanded = value;
-                OnPropertyChanged("Expanded");
+                OnPropertyChanged();
             }
         }
 
