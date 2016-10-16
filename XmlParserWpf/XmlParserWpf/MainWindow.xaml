@@ -4,7 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:XmlParserWpf"
-        xmlns:tracerResItems="clr-namespace:TracerLibXmlParser;assembly=TracerLibXmlParser"
+        xmlns:viewModel="clr-namespace:XmlParserWpf.ViewModel"
         mc:Ignorable="d"
         Title="Lab3 - XmlParserWpf" Height="424.038" Width="371" Name="mainWindow"
             Closing="MainWindow_OnClosing">
@@ -46,7 +46,7 @@
             </TabControl.ItemsSource>
 
             <TabControl.ItemTemplate>
-                <DataTemplate DataType="{x:Type local:FilesListItem}">
+                <DataTemplate DataType="{x:Type viewModel:FilesListItem}">
                     <TextBlock>
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
@@ -89,9 +89,9 @@
                                     <EventSetter Event="PreviewMouseDoubleClick" Handler="FileTreeItem_OnPreviewMouseDoubleClick"></EventSetter>
                                 </Style>
                             </TreeView.ItemContainerStyle>
-                            
+
                             <TreeView.Resources>
-                                <HierarchicalDataTemplate DataType="{x:Type tracerResItems:ThreadsListItem}">
+                                <HierarchicalDataTemplate DataType="{x:Type viewModel:ThreadsListItem}">
                                     <HierarchicalDataTemplate.ItemsSource>
                                         <Binding Path="Methods"/>
                                     </HierarchicalDataTemplate.ItemsSource>
@@ -104,8 +104,8 @@
                                         </TextBlock.Text>
                                     </TextBlock>
                                 </HierarchicalDataTemplate>
-                                
-                                <HierarchicalDataTemplate DataType="{x:Type tracerResItems:MethodsListItem}">
+
+                                <HierarchicalDataTemplate DataType="{x:Type viewModel:MethodsListItem}">
                                     <HierarchicalDataTemplate.ItemsSource>
                                         <Binding Path="Nested" />
                                     </HierarchicalDataTemplate.ItemsSource>
@@ -128,30 +128,12 @@
                                     <MenuItem Command="local:CustomCommands.CollapseAll"></MenuItem>
                                 </ContextMenu>
                             </TreeView.ContextMenu>
-
                         </TreeView>
-                        <!-- Check saved state: -->
-                        <!--<CheckBox Grid.Row="1" Grid.Column="0">
-                            <CheckBox.IsChecked>
-                                <Binding  ElementName="mainWindow" Path="FilesList.SelectedFile.IsSaved"/>
-                            </CheckBox.IsChecked>
-                            <TextBlock Text="Saved"></TextBlock>
-                        </CheckBox>
-                        <TextBlock Grid.Row="1" Grid.Column="1">
-                            <TextBlock.Text>
-                                <MultiBinding StringFormat="Selected: {0} (params={1} package={2} time={3})">
-                                    <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Name"></Binding>
-                                    <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.ParamsCount"></Binding>
-                                    <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Package"></Binding>
-                                    <Binding ElementName="mainWindow" Path="FilesList.SelectedFile.SelectedMethod.Time"></Binding>
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>-->
                     </Grid>
                 </DataTemplate>
             </TabControl.ContentTemplate>
             
         </TabControl>
-        
+
     </Grid>
 </Window>

@@ -1,5 +1,5 @@
 ﻿using System.Windows.Input;
-using TracerLibXmlParser;
+using XmlParserWpf.ViewModel;
 
 namespace XmlParserWpf
 {

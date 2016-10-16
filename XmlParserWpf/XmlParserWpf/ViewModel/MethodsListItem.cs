@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Xml;
 using TracerLib;
 
-namespace TracerLibXmlParser
+namespace XmlParserWpf.ViewModel
 {
     public class MethodsListItem : ITimed, INotifyPropertyChanged, ICloneable   // without Nested reference
     {

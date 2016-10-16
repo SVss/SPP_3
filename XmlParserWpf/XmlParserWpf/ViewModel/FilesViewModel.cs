@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Linq;
 
-namespace XmlParserWpf
+namespace XmlParserWpf.ViewModel
 {
     public class FilesViewModel: ObservableCollection<FilesListItem>
     {

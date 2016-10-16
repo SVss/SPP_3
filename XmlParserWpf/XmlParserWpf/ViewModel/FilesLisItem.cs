@@ -4,9 +4,8 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Xml;
 using TracerLib;
-using TracerLibXmlParser;
 
-namespace XmlParserWpf
+namespace XmlParserWpf.ViewModel
 {
     public class FilesListItem: INotifyPropertyChanged
     {
@@ -16,7 +15,6 @@ namespace XmlParserWpf
         private string _path;
         private bool _isSaved;
         private MethodsListItem _selectedMethod;
-        private bool _isExpanded;
 
         public string Path
         {

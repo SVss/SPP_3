@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Xml;
 using TracerLib;
 
-namespace TracerLibXmlParser
+namespace XmlParserWpf.ViewModel
 {
     internal interface ITimed
     {

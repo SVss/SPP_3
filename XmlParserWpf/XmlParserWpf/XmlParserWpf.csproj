@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModel\ThreadsListItem.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -65,8 +66,9 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="FilesLisItem.cs" />
-    <Compile Include="FilesViewModel.cs" />
+    <Compile Include="ViewModel\BadXmlException.cs" />
+    <Compile Include="ViewModel\FilesLisItem.cs" />
+    <Compile Include="ViewModel\FilesViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -77,6 +79,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ViewModel\MethodsListItem.cs" />
     <Compile Include="PropertiesWindow.xaml.cs">
       <DependentUpon>PropertiesWindow.xaml</DependentUpon>
     </Compile>
@@ -107,10 +110,6 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\TracerLibXmlParser\TracerLibXmlParser\TracerLibXmlParser.csproj">
-      <Project>{0cd59627-45ec-46fd-891c-b06070c111ad}</Project>
-      <Name>TracerLibXmlParser</Name>
-    </ProjectReference>
     <ProjectReference Include="..\..\TracerLib\TracerLib.csproj">
       <Project>{021eba19-b215-46b0-8b9f-b1fb9e9aba79}</Project>
       <Name>TracerLib</Name>

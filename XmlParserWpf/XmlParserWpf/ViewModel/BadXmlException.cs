@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.Serialization;
 
-namespace TracerLibXmlParser
+namespace XmlParserWpf.ViewModel
 {
     [Serializable]
     public class BadXmlException : Exception
