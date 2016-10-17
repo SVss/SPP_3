@@ -7,12 +7,16 @@ using TracerLib;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class ThreadsListItem: ITimed, IExpandable, IChangeable, INotifyPropertyChanged
+    public class ThreadsListItem:
+        ITimed,
+        IExpandable,
+        IChangeable,
+        INotifyPropertyChanged
     {
         private long _id;
         private long _time;
-        private bool _expanded;
         public List<MethodsListItem> Methods { get; }
+        private bool _expanded;
 
         public long Id
         {
@@ -39,37 +43,6 @@ namespace XmlParserWpf.ViewModel
                 _time = value;
                 OnPropertyChanged();
                 OnChange();
-            }
-        }
-        
-        public bool Expanded
-        {
-            get { return _expanded; }
-            set
-            {
-                if (_expanded == value)
-                    return;
-
-                _expanded = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public void ExpandAll()
-        {
-            Expanded = true;
-            foreach (var method in Methods)
-            {
-                method.ExpandAll();
-            }
-        }
-
-        public void CollapseAll()
-        {
-            Expanded = false;
-            foreach (var method in Methods)
-            {
-                method.CollapseAll();
             }
         }
 
@@ -122,6 +95,39 @@ namespace XmlParserWpf.ViewModel
                 result.AppendChild(item.ToXmlElement(document));
             }
             return result;
+        }
+
+        // IExpandable
+
+        public bool Expanded
+        {
+            get { return _expanded; }
+            set
+            {
+                if (_expanded == value)
+                    return;
+
+                _expanded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void ExpandAll()
+        {
+            Expanded = true;
+            foreach (var method in Methods)
+            {
+                method.ExpandAll();
+            }
+        }
+
+        public void CollapseAll()
+        {
+            Expanded = false;
+            foreach (var method in Methods)
+            {
+                method.CollapseAll();
+            }
         }
 
         // IChangeable

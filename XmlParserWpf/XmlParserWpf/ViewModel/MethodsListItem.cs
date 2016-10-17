@@ -7,14 +7,19 @@ using TracerLib;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class MethodsListItem : ITimed, IExpandable, IChangeable, INotifyPropertyChanged, ICloneable   // without Nested reference
+    public class MethodsListItem :
+        ITimed,
+        IExpandable,
+        IChangeable,
+        INotifyPropertyChanged,
+        ICloneable   // shallow copy
     {
         private string _name;
         private string _package;
         private long _paramsCount;
         private long _time;
-        private bool _expanded;
         public List<MethodsListItem> Nested { get; }
+        private bool _expanded;
 
         public object Parent { get; private set; }
 
@@ -80,37 +85,6 @@ namespace XmlParserWpf.ViewModel
             }
         }
 
-        public bool Expanded
-        {
-            get { return _expanded; }
-            set
-            {
-                if (_expanded == value)
-                    return;
-
-                _expanded = value;
-                OnPropertyChanged();
-            }
-        }
-
-        public void ExpandAll()
-        {
-            Expanded = true;
-            foreach (var method in Nested)
-            {
-                method.ExpandAll();
-            }
-        }
-
-        public void CollapseAll()
-        {
-            Expanded = false;
-            foreach (var method in Nested)
-            {
-                method.CollapseAll();
-            }
-        }
-
         // Public
 
         public static MethodsListItem FromXmlElement(XmlElement xe, object parent = null)
@@ -169,6 +143,39 @@ namespace XmlParserWpf.ViewModel
                 result.AppendChild(child.ToXmlElement(document));
             }
             return result;
+        }
+
+        // IExpandable
+
+        public bool Expanded
+        {
+            get { return _expanded; }
+            set
+            {
+                if (_expanded == value)
+                    return;
+
+                _expanded = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public void ExpandAll()
+        {
+            Expanded = true;
+            foreach (var method in Nested)
+            {
+                method.ExpandAll();
+            }
+        }
+
+        public void CollapseAll()
+        {
+            Expanded = false;
+            foreach (var method in Nested)
+            {
+                method.CollapseAll();
+            }
         }
 
         // IChangeable

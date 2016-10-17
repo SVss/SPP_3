@@ -2,14 +2,14 @@
 {
     // ITimed
 
-    interface ITimed
+    internal interface ITimed
     {
         long Time { get; set; }
     }
 
     // IExpandable
 
-    interface IExpandable
+    internal interface IExpandable
     {
         bool Expanded { get; set; }
 
@@ -22,7 +22,7 @@
 
     public delegate void ChangeDelegate();
 
-    interface IChangeable
+    internal interface IChangeable
     {
         event ChangeDelegate ChangeEvent;
 

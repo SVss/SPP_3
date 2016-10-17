@@ -4,9 +4,9 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Input;
-using XmlParserWpf.ViewModel;
 using MessageBox = System.Windows.MessageBox;
 using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
+using XmlParserWpf.ViewModel;
 
 namespace XmlParserWpf
 {
@@ -19,20 +19,22 @@ namespace XmlParserWpf
 
         private static readonly OpenFileDialog OpenFileDialog = new OpenFileDialog()
         {
-            Title = @"Choose file to open",
-            Filter = @"XML-file|*.xml"
+            Filter = StringConstants.FileDialogsFilters
         };
 
         private static readonly SaveFileDialog SaveFileDialog = new SaveFileDialog()
         {
-            Title = @"Choose location to save to",
-            Filter = @"XML-file|*.xml"
+            Filter = StringConstants.FileDialogsFilters
         };
+
+        // Public
 
         public MainWindow()
         {
             InitializeComponent();
         }
+
+        // Internal
 
         private void Open_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
@@ -58,7 +60,11 @@ namespace XmlParserWpf
             }
             catch (BadXmlException)
             {
-                MessageBox.Show("Error", $"Can't open file {path}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    string.Format(MessagesConsts.FileCantLoadMessage, path),
+                    MessagesConsts.ErrorMessageCaption,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
@@ -103,10 +109,26 @@ namespace XmlParserWpf
             if (file.IsSaved)
                 return true;
 
-            var closeAnswer = MessageBox.Show("File is unsaved.\nDo you really want to close it ?", "Warning?", MessageBoxButton.YesNo,
-                MessageBoxImage.Exclamation);
+            MessageBoxResult answ = MessageBox.Show(
+                string.Format(MessagesConsts.FileNotSavedMessage, file.Path),
+                MessagesConsts.WarningMessageCaption,
+                MessageBoxButton.YesNoCancel,
+                MessageBoxImage.Exclamation
+            );
 
-            return (closeAnswer == MessageBoxResult.Yes);
+            bool result = false;
+            switch (answ)
+            {
+                case MessageBoxResult.No:
+                    result = true;
+                    break;
+
+                case MessageBoxResult.Yes:
+                    file.Save();
+                    result = true;
+                    break;
+            }
+            return result;
         }
 
         private void SaveAs_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
@@ -127,13 +149,18 @@ namespace XmlParserWpf
             }
             catch (Exception)
             {
-                MessageBox.Show("Can't save file", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(
+                    string.Format(MessagesConsts.FileCantSaveMessage, path),
+                    MessagesConsts.ErrorMessageCaption,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Error);
             }
         }
 
         private void Save_OnCanExecute(object sender, CanExecuteRoutedEventArgs e)
         {
-            e.CanExecute = (FilesList.Count > 0) && (!FilesList.SelectedFile.IsSaved);  // + check if files exists
+            e.CanExecute = (FilesList.Count > 0)
+                && (!FilesList.SelectedFile.IsSaved);  // TODO: check if files exists
         }
 
         private void Save_OnExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -143,20 +170,25 @@ namespace XmlParserWpf
         
         private void FileTreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
-            if (FilesList.SelectedFile != null)
-                FilesList.SelectedFile.SelectedMethod = e.NewValue as MethodsListItem;
+            if (FilesList.SelectedFile == null)
+                return;
+
+            FilesList.SelectedFile.SelectedMethod = 
+                e.NewValue as MethodsListItem;
         }
 
         private void FileTreeItem_OnPreviewMouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             TreeViewItem item = sender as TreeViewItem;
-            if ((item == null) || (!item.IsSelected)
+            if ((item == null)
+                || (!item.IsSelected)
                 || (FilesList.SelectedFile.SelectedMethod == null))
                 return;
 
-            var propertiesWindow = new PropertiesWindow(FilesList.SelectedFile.SelectedMethod);
-            propertiesWindow.ShowDialog();
+            var propertiesWindow = new PropertiesWindow(
+                FilesList.SelectedFile.SelectedMethod);
 
+            propertiesWindow.ShowDialog();
             e.Handled = true;
         }
 
@@ -218,5 +250,21 @@ namespace XmlParserWpf
             typeof(CustomCommands),
             new InputGestureCollection()
         );
+    }
+
+    // Constants
+
+    internal static class MessagesConsts
+    {
+        public static string WarningMessageCaption => "Warning";
+        public static string ErrorMessageCaption => "Error";
+        public static string FileNotSavedMessage => "File \"{0}\" is not saved.\nDo you want to save it before closing?";
+        public static string FileCantSaveMessage => "Can't save file \"{0}\".";
+        public static string FileCantLoadMessage => "Can't load file \"{0}\".";
+    }
+
+    internal static class StringConstants
+    {
+        public static string FileDialogsFilters => "XML-file|*.xml";
     }
 }
