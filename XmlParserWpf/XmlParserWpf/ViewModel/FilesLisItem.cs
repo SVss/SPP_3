@@ -11,7 +11,6 @@ namespace XmlParserWpf.ViewModel
         IExpandable,
         INotifyPropertyChanged
     {
-        private string _path;
         private bool _isSaved;
         private MethodsListItem _selectedMethod;
         public List<ThreadsListItem> ThreadsList { get; }
@@ -25,7 +24,8 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _path = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Path");
+                OnPropertyChanged("Name");
             }
         }
 
@@ -40,7 +40,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _isSaved = value;
-                OnPropertyChanged();
+                OnPropertyChanged("IsSaved");
             }
         }
 
@@ -50,37 +50,8 @@ namespace XmlParserWpf.ViewModel
             set
             {
                 _selectedMethod = value;
-                OnPropertyChanged();
+                OnPropertyChanged("SelectedMethod");
             }
-        }
-
-        // Public
-
-        public static FilesListItem LoadFromFile(string path)
-        {
-            if (!File.Exists(path))
-            {
-                throw new FileNotFoundException();
-            }
-
-            FilesListItem result = new FilesListItem()
-            {
-                Path = path,
-                IsSaved = false
-            };
-
-            var doc = new XmlDocument();
-            try
-            {
-                doc.Load(path);
-            }
-            catch (XmlException ex)
-            {
-                throw new BadXmlException(ErrorLoadingMessage, ex);
-            }
-            result.LoadFromXmlDocument(doc);
-
-            return result;
         }
 
         public void SaveAs(string path)
@@ -89,20 +60,7 @@ namespace XmlParserWpf.ViewModel
             Save();
         }
 
-        public void Save()
-        {
-            XmlDocument doc = new XmlDocument();
-            XmlElement root = (XmlElement)doc.AppendChild(
-                doc.CreateElement(XmlConstants.RootTag));
-
-            foreach (ThreadsListItem item in ThreadsList)
-            {
-                root.AppendChild(item.ToXmlElement(doc));
-            }
-
-            doc.Save(Path);
-            IsSaved = true;
-        }
+        
 
         // IExpandable
 
@@ -133,33 +91,6 @@ namespace XmlParserWpf.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Internal
-
-        private void LoadFromXmlDocument(XmlDocument doc)
-        {
-            XmlElement xe = doc.FirstChild as XmlElement;
-            if (xe == null || xe.Name != XmlConstants.RootTag)
-            {
-                throw new BadXmlException();
-            }
-
-            foreach (XmlElement child in xe.ChildNodes)
-            {
-                var thread = ThreadsListItem.FromXmlElement(child);
-                thread.ChangeEvent += delegate { IsSaved = false; };
-                ThreadsList.Add(thread);
-            }
-
-            IsSaved = true;
-        }
-
-        private FilesListItem()
-        {
-            ThreadsList = new List<ThreadsListItem>();
-        }
-
-        // Constants
-
-        private const string ErrorLoadingMessage = "Error loading XML-file";
     }
+
 }

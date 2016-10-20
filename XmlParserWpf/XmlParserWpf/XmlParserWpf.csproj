@@ -57,6 +57,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Model\FileModel.cs" />
+    <Compile Include="Model\MethodModel.cs" />
+    <Compile Include="Model\ThreadModel.cs" />
     <Compile Include="ViewModel\Interfaces.cs" />
     <Compile Include="ViewModel\ThreadsListItem.cs" />
     <Page Include="MainWindow.xaml">
@@ -67,7 +71,7 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ViewModel\BadXmlException.cs" />
+    <Compile Include="Model\BadXmlException.cs" />
     <Compile Include="ViewModel\FilesLisItem.cs" />
     <Compile Include="ViewModel\FilesViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">

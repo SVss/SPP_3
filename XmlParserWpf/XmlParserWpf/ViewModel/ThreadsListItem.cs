@@ -27,7 +27,7 @@ namespace XmlParserWpf.ViewModel
                     return;
                 _id = value;
 
-                OnPropertyChanged();
+                OnPropertyChanged("Id");
                 OnChange();
             }
         }
@@ -41,62 +41,14 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _time = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Time");
                 OnChange();
             }
         }
 
         // Public
 
-        public static ThreadsListItem FromXmlElement(XmlElement xe)
-        {
-            if (xe.Name != XmlConstants.ThreadTag)
-                throw new BadXmlException();
-
-            long id, time;
-            try
-            {
-                id = Convert.ToInt64(xe.Attributes[XmlConstants.ThreadIdAttribute].Value);
-                time = Convert.ToInt64(xe.Attributes[XmlConstants.TimeAttribute].Value);
-            }
-            catch (Exception ex)
-            {
-                if (ex is XmlException || ex is FormatException || ex is OverflowException)
-                    throw new BadXmlException();
-
-                throw;
-            }
-
-            ThreadsListItem result = new ThreadsListItem()
-            {
-                Id = id,
-                Time = time
-            };
-
-            foreach (XmlElement child in xe.ChildNodes)
-            {
-                var method = MethodsListItem.FromXmlElement(child, result);
-                method.ChangeEvent += delegate { result.OnChange(); };
-
-                result.Methods.Add(method);
-            }
-
-            return result;
-        }
-
-        public XmlElement ToXmlElement(XmlDocument document)
-        {
-            XmlElement result = document.CreateElement(XmlConstants.ThreadTag);
-            result.SetAttribute(XmlConstants.ThreadIdAttribute, Id.ToString());
-            result.SetAttribute(XmlConstants.TimeAttribute, Time.ToString());
-
-            foreach (MethodsListItem item in Methods)
-            {
-                result.AppendChild(item.ToXmlElement(document));
-            }
-            return result;
-        }
-
+       
         // IExpandable
 
         public bool Expanded

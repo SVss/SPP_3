@@ -32,7 +32,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _name = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Name");
                 OnChange();
             }
         }
@@ -46,7 +46,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _package = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Package");
                 OnChange();
             }
         }
@@ -60,7 +60,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _paramsCount = value;
-                OnPropertyChanged();
+                OnPropertyChanged("ParamsCount");
                 OnChange();
             }
         }
@@ -76,7 +76,7 @@ namespace XmlParserWpf.ViewModel
                 long delta = value - _time;
                 _time = value;
 
-                OnPropertyChanged();
+                OnPropertyChanged("Time");
                 OnChange();
 
                 ITimed timed = Parent as ITimed;
@@ -87,63 +87,7 @@ namespace XmlParserWpf.ViewModel
 
         // Public
 
-        public static MethodsListItem FromXmlElement(XmlElement xe, object parent = null)
-        {
-            if (xe.Name != XmlConstants.MethodTag)
-                throw new BadXmlException();
-
-            string name, package;
-            long paramsCount, time;
-            try
-            {
-                name = xe.Attributes[XmlConstants.NameAttribute].Value;
-                package = xe.Attributes[XmlConstants.PackageAttribute].Value;
-                paramsCount = Convert.ToInt64(xe.Attributes[XmlConstants.ParamsAttribute].Value);
-                time = Convert.ToInt64(xe.Attributes[XmlConstants.TimeAttribute].Value);
-            }
-            catch (Exception ex)
-            {
-                if (ex is XmlException || ex is FormatException || ex is OverflowException)
-                    throw new BadXmlException();
-
-                throw;
-            }
-
-            MethodsListItem result = new MethodsListItem()
-            {
-                Name = name,
-                Package = package,
-                ParamsCount = paramsCount,
-                Time = time
-            };
-
-            foreach (XmlElement child in xe.ChildNodes)
-            {
-                var nested = FromXmlElement(child, result);
-                nested.ChangeEvent += delegate { result.OnChange(); };
-
-                result.Nested.Add(nested);
-            }
-
-            result.Parent = parent;
-            return result;
-        }
-
-        public XmlElement ToXmlElement(XmlDocument document)
-        {
-            XmlElement result = document.CreateElement(XmlConstants.MethodTag);
-            result.SetAttribute(XmlConstants.NameAttribute, Name);
-            result.SetAttribute(XmlConstants.TimeAttribute, Time.ToString());
-
-            result.SetAttribute(XmlConstants.PackageAttribute, Package);
-            result.SetAttribute(XmlConstants.ParamsAttribute, ParamsCount.ToString());
-
-            foreach (var child in Nested)
-            {
-                result.AppendChild(child.ToXmlElement(document));
-            }
-            return result;
-        }
+        
 
         // IExpandable
 
@@ -215,6 +159,22 @@ namespace XmlParserWpf.ViewModel
         private MethodsListItem()
         {
             Nested = new List<MethodsListItem>();
+        }
+
+        public XmlElement ToXmlElement(XmlDocument document)
+        {
+            XmlElement result = document.CreateElement(XmlConstants.MethodTag);
+            result.SetAttribute(XmlConstants.NameAttribute, Name);
+            result.SetAttribute(XmlConstants.TimeAttribute, Time.ToString());
+
+            result.SetAttribute(XmlConstants.PackageAttribute, Package);
+            result.SetAttribute(XmlConstants.ParamsAttribute, ParamsCount.ToString());
+
+            foreach (var child in Nested)
+            {
+                result.AppendChild(child.ToXmlElement(document));
+            }
+            return result;
         }
     }
 }
