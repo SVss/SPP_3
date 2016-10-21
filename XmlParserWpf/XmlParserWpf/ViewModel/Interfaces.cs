@@ -2,14 +2,14 @@
 {
     // ITimed
 
-    internal interface ITimed
+    public interface ITimed
     {
         uint Time { get; set; }
     }
 
     // IExpandable
 
-    internal interface IExpandable
+    public interface IExpandable
     {
         bool Expanded { get; set; }
 

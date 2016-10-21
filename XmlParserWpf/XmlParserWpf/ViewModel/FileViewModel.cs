@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using XmlParserWpf.Commands;
 using XmlParserWpf.Model;
+using XmlParserWpf.Views;
 using XmlParserWpf.Utils;
 
 namespace XmlParserWpf.ViewModel
@@ -64,11 +65,13 @@ namespace XmlParserWpf.ViewModel
         {
             Path = path;
             _file.Save();
+            OnPropertyChanged("IsSaved");
         }
 
         public void Save()
         {
             _file.Save();
+            OnPropertyChanged("IsSaved");
         }
 
         // Public

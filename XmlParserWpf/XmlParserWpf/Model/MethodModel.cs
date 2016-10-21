@@ -50,8 +50,6 @@ namespace XmlParserWpf.Model
             foreach (XmlElement child in xe.ChildNodes)
             {
                 var nested = FromXmlElement(child, result);
-                //nested.ChangeEvent += delegate { result.OnChange(); };
-
                 result.NestedMethods.Add(nested);
             }
 

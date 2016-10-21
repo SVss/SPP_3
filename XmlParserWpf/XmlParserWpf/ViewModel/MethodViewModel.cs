@@ -96,7 +96,7 @@ namespace XmlParserWpf.ViewModel
         {
         }
 
-        public MethodViewModel(MethodModel method, MethodViewModel parent, bool createNestedTree = true)
+        public MethodViewModel(MethodModel method, ITimed parent, bool createNestedTree = true)
         {
             _method = method;
             Parent = parent;

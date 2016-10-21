@@ -41,8 +41,6 @@ namespace XmlParserWpf.Model
             foreach (XmlElement child in xe.ChildNodes)
             {
                 var method = MethodModel.FromXmlElement(child, result);
-                // method.ChangeEvent += delegate { result.OnChange(); };
-
                 result.Methods.Add(method);
             }
 

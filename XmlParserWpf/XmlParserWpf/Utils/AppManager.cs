@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using XmlParserWpf.ViewModel;
+using XmlParserWpf.Views;
 
 namespace XmlParserWpf.Utils
 {

@@ -5,7 +5,9 @@ using XmlParserWpf.Commands;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class MethodEditingViewModel: INotifyPropertyChanged
+    public class MethodEditingViewModel:
+        ITimed,
+        INotifyPropertyChanged
     {
         private readonly MethodViewModel _method;
         private readonly MethodViewModel _realMethod;

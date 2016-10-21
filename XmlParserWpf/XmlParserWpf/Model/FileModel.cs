@@ -61,7 +61,6 @@ namespace XmlParserWpf.Model
             foreach (XmlElement child in xe.ChildNodes)
             {
                 var thread = ThreadModel.FromXmlElement(child);
-                // thread.ChangeEvent += delegate { IsSaved = false; };
                 ThreadsList.Add(thread);
             }
 

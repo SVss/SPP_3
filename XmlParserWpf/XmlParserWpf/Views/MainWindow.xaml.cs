@@ -1,8 +1,6 @@
-﻿using System.ComponentModel;
-using XmlParserWpf.Utils;
-using XmlParserWpf.ViewModel;
+﻿using XmlParserWpf.Utils;
 
-namespace XmlParserWpf
+namespace XmlParserWpf.Views
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
