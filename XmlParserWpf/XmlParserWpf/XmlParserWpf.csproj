@@ -62,7 +62,10 @@
     <Compile Include="Model\MethodModel.cs" />
     <Compile Include="Model\ThreadModel.cs" />
     <Compile Include="ViewModel\Interfaces.cs" />
-    <Compile Include="ViewModel\ThreadsListItem.cs" />
+    <Compile Include="ViewModel\ThreadViewModel.cs" />
+    <Compile Include="Views\FileView.xaml.cs">
+      <DependentUpon>FileView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -72,8 +75,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Model\BadXmlException.cs" />
-    <Compile Include="ViewModel\FilesLisItem.cs" />
-    <Compile Include="ViewModel\FilesViewModel.cs" />
+    <Compile Include="ViewModel\FileViewModel.cs" />
+    <Compile Include="ViewModel\TabsViewModel.cs" />
     <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
@@ -82,9 +85,13 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\FileView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ViewModel\MethodsListItem.cs" />
+    <Compile Include="ViewModel\MethodViewModel.cs" />
     <Compile Include="PropertiesWindow.xaml.cs">
       <DependentUpon>PropertiesWindow.xaml</DependentUpon>
     </Compile>

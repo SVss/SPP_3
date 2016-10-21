@@ -1,4 +1,5 @@
 ﻿using System.Windows.Input;
+using XmlParserWpf.Model;
 using XmlParserWpf.ViewModel;
 
 namespace XmlParserWpf
@@ -8,15 +9,15 @@ namespace XmlParserWpf
     /// </summary>
     public partial class PropertiesWindow
     {
-        private readonly MethodsListItem _sourceMethod;
-        public MethodsListItem Method { get; private set; }
+        private readonly MethodModel _sourceMethod;
+        public MethodModel Method { get; private set; }
 
         // Public
 
-        public PropertiesWindow(MethodsListItem method)
+        public PropertiesWindow(MethodModel method)
         {
-            Method = method.Clone() as MethodsListItem;
-            _sourceMethod = method;
+            //Method = method.Clone() as MethodModel;
+            //_sourceMethod = method;
 
             InitializeComponent();
         }
@@ -61,32 +62,5 @@ namespace XmlParserWpf
             Method.Time = _sourceMethod.Time;
         }
     }
-
-    internal static partial class CustomCommands
-    {
-        public static RoutedUICommand Ok = new RoutedUICommand(
-            "Ok",
-            "Ok",
-            typeof(CustomCommands),
-            new InputGestureCollection()
-        );
-
-        public static RoutedUICommand Cancel = new RoutedUICommand(
-            "Cancel",
-            "Cancel",
-            typeof(CustomCommands),
-            new InputGestureCollection()
-            {
-                new KeyGesture(Key.Escape)
-            }
-        );
-
-        public static RoutedUICommand Reset = new RoutedUICommand(
-            "Reset",
-            "Reset",
-            typeof(CustomCommands),
-            new InputGestureCollection()
-        );
-
-    }
+    
 }

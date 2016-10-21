@@ -8,9 +8,9 @@
         Title="Methods Properties" Height="243" Width="254" Name="PropsWindow">
 
     <Window.CommandBindings>
-        <CommandBinding Command="local:CustomCommands.Ok" CanExecute="Ok_OnCanExecute" Executed="Ok_OnExecuted" />
-        <CommandBinding Command="local:CustomCommands.Cancel" CanExecute="Cancel_OnCanExecute" Executed="Cancel_OnExecuted" />
-        <CommandBinding Command="local:CustomCommands.Reset" CanExecute="Reset_OnCanExecute" Executed="Reset_OnExecuted" />
+        <CommandBinding Command="local:UserCommands.Ok" CanExecute="Ok_OnCanExecute" Executed="Ok_OnExecuted" />
+        <CommandBinding Command="local:UserCommands.Cancel" CanExecute="Cancel_OnCanExecute" Executed="Cancel_OnExecuted" />
+        <CommandBinding Command="local:UserCommands.Reset" CanExecute="Reset_OnCanExecute" Executed="Reset_OnExecuted" />
     </Window.CommandBindings>
 
     <Grid>
@@ -62,13 +62,13 @@
                 <ColumnDefinition Width="Auto"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="1" Command="local:CustomCommands.Ok" MinWidth="50">
+            <Button Grid.Column="1" Command="local:UserCommands.Ok" MinWidth="50">
                 <Button.Content>Ok</Button.Content>
             </Button>
-            <Button Grid.Column="3" Command="local:CustomCommands.Cancel" MinWidth="50">
+            <Button Grid.Column="3" Command="local:UserCommands.Cancel" MinWidth="50">
                 <Button.Content>Cancel</Button.Content>
             </Button>
-            <Button Grid.Column="5" Command="local:CustomCommands.Reset" MinWidth="50">
+            <Button Grid.Column="5" Command="local:UserCommands.Reset" MinWidth="50">
                 <Button.Content>Reset</Button.Content>
             </Button>
         </Grid>
