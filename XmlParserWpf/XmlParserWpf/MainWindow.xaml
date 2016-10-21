@@ -3,12 +3,13 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:i = "http://schemas.microsoft.com/expression/2010/interactivity"
         xmlns:local="clr-namespace:XmlParserWpf"
         xmlns:views="clr-namespace:XmlParserWpf.Views"
         xmlns:viewModels="clr-namespace:XmlParserWpf.ViewModel"
         mc:Ignorable="d"
-        Title="Lab3 - XmlParserWpf" Height="424.038" Width="371" Name="MainAppWindow">
-
+        Title="Lab3 - XmlParserWpf" Height="424.038" Width="371" Name="MainAppWindow" Closing="MainWindow_OnClosing">
+    
     <Window.DataContext>
         <viewModels:TabsViewModel/>
     </Window.DataContext>

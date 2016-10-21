@@ -1,4 +1,5 @@
-﻿using XmlParserWpf.ViewModel;
+﻿using System.ComponentModel;
+using XmlParserWpf.ViewModel;
 
 namespace XmlParserWpf
 {
@@ -11,5 +12,14 @@ namespace XmlParserWpf
         {
             InitializeComponent();
         }
+
+        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            var dc = this.DataContext as TabsViewModel;
+            if (dc == null) return;
+
+            e.Cancel = !dc.CloseAllSucceeded();
+        }
+
     }
 }

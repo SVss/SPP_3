@@ -21,6 +21,7 @@ namespace XmlParserWpf.ViewModel
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
         public RelayCommand SaveAsCommand { get; }
+        public RelayCommand ExitCommand { get; }
         public RelayCommand ExpandAllCommand { get; }
         public RelayCommand CollapseAllCommand { get; }
 
@@ -57,8 +58,9 @@ namespace XmlParserWpf.ViewModel
         {
             OpenCommand = new RelayCommand(Open_OnExecuted);
             CloseCommand = new RelayCommand(Close_OnExecuted, Close_OnCanExecute);
-            SaveCommand = new RelayCommand(Save_OnExecuted, SaveAs_OnCanExecute);
+            SaveCommand = new RelayCommand(Save_OnExecuted, Save_OnCanExecute);
             SaveAsCommand = new RelayCommand(SaveAs_OnExecuted, SaveAs_OnCanExecute);
+            ExitCommand = new RelayCommand(Exit_OnExecuted);
             ExpandAllCommand = new RelayCommand(ExpandAll_OnExecuted);
             CollapseAllCommand = new RelayCommand(CollapseAll_OnExecuted);
         }
@@ -94,6 +96,21 @@ namespace XmlParserWpf.ViewModel
 
             SelectedFile.SelectedValue =
                 e.NewValue as MethodViewModel;
+        }
+
+        public bool CloseAllSucceeded()
+        {
+            SelectedIndex = 0; // start closing from 1st file
+            while (FilesList.Count > 0)
+            {
+                if (CanCloseFile(SelectedFile)) // ask user here
+                    RemoveSelected();
+                else
+                {
+                    return false;
+                }
+            }
+            return true;
         }
 
         // INotifyPropertyChange
@@ -238,34 +255,15 @@ namespace XmlParserWpf.ViewModel
 
         private void Exit_OnExecuted(object sender)
         {
-            // close main window
-        }
-
-        private void MainWindow_OnClosing(object sender, CancelEventArgs e)
-        {
-            e.Cancel = !CloseAllSucceeded();
+            Application.Current.MainWindow.Close();
         }
 
         // Constants
 
         private const int NoneSelection = -1;
-
-        public bool CloseAllSucceeded()
-        {
-            SelectedIndex = 0; // start closing from 1st file
-            while (FilesList.Count > 0)
-            {
-                if (CanCloseFile(SelectedFile)) // ask user here
-                    RemoveSelected();
-                else
-                {
-                    return false;
-                }
-            }
-            return true;
-        }
-
     }
+
+    // Constants
 
     internal static class MessagesConsts
     {
