@@ -5,7 +5,7 @@ using TracerLib;
 
 namespace XmlParserWpf.Model
 {
-    public class MethodModel
+    public class MethodModel: ICloneable    // shallow copy
     {
         public string Name { get; set; }
         public string Package { get; set; }
@@ -72,6 +72,20 @@ namespace XmlParserWpf.Model
             {
                 result.AppendChild(child.ToXmlElement(document));
             }
+            return result;
+        }
+
+        // ICloneable
+
+        public object Clone()
+        {
+            MethodModel result = new MethodModel()
+            {
+                Name = Name,
+                Package = Package,
+                ParamsCount = ParamsCount,
+                Time = Time
+            };
             return result;
         }
 

@@ -6,9 +6,11 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Microsoft.Win32;
 using XmlParserWpf.Commands;
 using XmlParserWpf.Model;
+using XmlParserWpf.Utils;
 using MessageBox = System.Windows.MessageBox;
 
 namespace XmlParserWpf.ViewModel
@@ -17,6 +19,7 @@ namespace XmlParserWpf.ViewModel
     {
         public ObservableCollection<FileViewModel> FilesList { get; } = new ObservableCollection<FileViewModel>();
         private int _selectedIndex = NoneSelection;
+
         public RelayCommand OpenCommand { get; }
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
@@ -24,6 +27,7 @@ namespace XmlParserWpf.ViewModel
         public RelayCommand ExitCommand { get; }
         public RelayCommand ExpandAllCommand { get; }
         public RelayCommand CollapseAllCommand { get; }
+        //public RelayCommand OpenProperties { get; }
 
         private static readonly OpenFileDialog OpenFileDialog = new OpenFileDialog()
         {
@@ -56,6 +60,8 @@ namespace XmlParserWpf.ViewModel
 
         public TabsViewModel()
         {
+            AppManager.WindowCancelEventHandler = FileTabsWindow_OnClosing;
+
             OpenCommand = new RelayCommand(Open_OnExecuted);
             CloseCommand = new RelayCommand(Close_OnExecuted, Close_OnCanExecute);
             SaveCommand = new RelayCommand(Save_OnExecuted, Save_OnCanExecute);
@@ -154,7 +160,6 @@ namespace XmlParserWpf.ViewModel
             }
         }
 
-
         // Close command
 
         private bool Close_OnCanExecute(object sender)
@@ -188,13 +193,12 @@ namespace XmlParserWpf.ViewModel
                     break;
 
                 case MessageBoxResult.Yes:
-                    //file.Save();
+                    file.Save();
                     result = true;
                     break;
             }
             return result;
         }
-
 
         // SaveAs command
 
@@ -241,14 +245,14 @@ namespace XmlParserWpf.ViewModel
 
         private void ExpandAll_OnExecuted(object sender)
         {
-            SelectedFile.ExpandAll();
+            SelectedFile.ExpandAll(this);
         }
 
         // CollapseAll command
 
         private void CollapseAll_OnExecuted(object sender)
         {
-            SelectedFile.CollapseAll();
+            SelectedFile.CollapseAll(this);
         }
 
         // Exit command
@@ -256,6 +260,13 @@ namespace XmlParserWpf.ViewModel
         private void Exit_OnExecuted(object sender)
         {
             Application.Current.MainWindow.Close();
+        }
+
+        // Window Closing Event
+
+        private void FileTabsWindow_OnClosing(object sender, CancelEventArgs e)
+        {
+            e.Cancel = !CloseAllSucceeded();
         }
 
         // Constants

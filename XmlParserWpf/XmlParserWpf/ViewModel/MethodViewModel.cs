@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using XmlParserWpf.Model;
@@ -10,10 +9,9 @@ namespace XmlParserWpf.ViewModel
         ITimed,
         IExpandable,
         IChangeable,
-        INotifyPropertyChanged,
-        ICloneable   // shallow copy
+        INotifyPropertyChanged
     {
-        private MethodModel _method;
+        protected MethodModel _method;
         private bool _expanded;
         public ObservableCollection<MethodViewModel> NestedMethods { get; }
 
@@ -108,6 +106,11 @@ namespace XmlParserWpf.ViewModel
             }
         }
 
+        public MethodEditingViewModel GetNewMethodEditingViewModel()
+        {
+            return new MethodEditingViewModel((MethodModel)_method.Clone(), this);
+        }
+
         // IExpandable
 
         public bool Expanded
@@ -123,21 +126,21 @@ namespace XmlParserWpf.ViewModel
             }
         }
 
-        public void ExpandAll()
+        public void ExpandAll(object sender)
         {
             Expanded = true;
             foreach (var method in NestedMethods)
             {
-                method.ExpandAll();
+                method.ExpandAll(this);
             }
         }
 
-        public void CollapseAll()
+        public void CollapseAll(object sender)
         {
             Expanded = false;
             foreach (var method in NestedMethods)
             {
-                method.CollapseAll();
+                method.CollapseAll(this);
             }
         }
 
@@ -159,25 +162,12 @@ namespace XmlParserWpf.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // ICloneable
-
-        public object Clone()
-        {
-            MethodViewModel result = new MethodViewModel()
-            {
-                Name = Name,
-                Package = Package,
-                ParamsCount = ParamsCount,
-                Time = Time
-            };
-            return result;
-        }
-
         // Internals
 
         private MethodViewModel()
         {
             NestedMethods = new ObservableCollection<MethodViewModel>();
         }
+
     }
 }

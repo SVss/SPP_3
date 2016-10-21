@@ -13,9 +13,9 @@
     {
         bool Expanded { get; set; }
 
-        void ExpandAll();
+        void ExpandAll(object sender);
 
-        void CollapseAll();
+        void CollapseAll(object sender);
     }
 
     // IChangeable

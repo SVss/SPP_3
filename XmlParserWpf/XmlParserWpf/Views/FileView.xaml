@@ -8,22 +8,29 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <!--<UserControl.DataContext>
+    <!--<UserControl.DataContext >
         <viewModels:FileViewModel/>
     </UserControl.DataContext>-->
     
     <Grid>
-        <TreeView>
+        <TreeView SelectedItemChanged="TreeView_OnSelectedItemChanged">
             <TreeView.ItemsSource>
                 <Binding Path="ThreadsList"/>
             </TreeView.ItemsSource>
-
+            
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding Path=Expanded, Mode=TwoWay}"></Setter>
                     <EventSetter Event="PreviewMouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"></EventSetter>
                 </Style>
             </TreeView.ItemContainerStyle>
+
+            <TreeView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Expand All" Command="{Binding Path=ExpandAllCommand}"></MenuItem>
+                    <MenuItem Header="Collapse All" Command="{Binding Path=CollapseAllCommand}"></MenuItem>
+                </ContextMenu>
+            </TreeView.ContextMenu>
 
             <TreeView.Resources>
                 <HierarchicalDataTemplate DataType="{x:Type viewModels:ThreadViewModel}">
@@ -44,7 +51,7 @@
                     <HierarchicalDataTemplate.ItemsSource>
                         <Binding Path="NestedMethods" />
                     </HierarchicalDataTemplate.ItemsSource>
-                    <TextBlock>
+                    <TextBlock >
                         <TextBlock.Text>
                             <MultiBinding StringFormat="{}{0} (params={1} package={2} time={3})">
                                 <Binding Path="Name"/>

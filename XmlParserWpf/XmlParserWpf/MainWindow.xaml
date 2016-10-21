@@ -8,7 +8,7 @@
         xmlns:views="clr-namespace:XmlParserWpf.Views"
         xmlns:viewModels="clr-namespace:XmlParserWpf.ViewModel"
         mc:Ignorable="d"
-        Title="Lab3 - XmlParserWpf" Height="424.038" Width="371" Name="MainAppWindow" Closing="MainWindow_OnClosing">
+        Title="Lab3 - XmlParserWpf" Height="424.038" Width="371" Name="MainAppWindow">
     
     <Window.DataContext>
         <viewModels:TabsViewModel/>
@@ -39,7 +39,7 @@
                 <MenuItem Header="Save as" Command="{Binding SaveAsCommand}"/>
                 <MenuItem Header="Close" Command="{Binding CloseCommand}"/>
                 <Separator/>
-                <MenuItem Header="Exit" Command="{Binding }"/>
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}"/>
             </MenuItem>
         </Menu>
 

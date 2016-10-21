@@ -71,21 +71,21 @@ namespace XmlParserWpf.ViewModel
             }
         }
 
-        public void ExpandAll()
+        public void ExpandAll(object sender)
         {
             Expanded = true;
             foreach (var method in Methods)
             {
-                method.ExpandAll();
+                method.ExpandAll(this);
             }
         }
 
-        public void CollapseAll()
+        public void CollapseAll(object sender)
         {
             Expanded = false;
             foreach (var method in Methods)
             {
-                method.CollapseAll();
+                method.CollapseAll(this);
             }
         }
 

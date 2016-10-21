@@ -1,9 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
+using XmlParserWpf.Commands;
 using XmlParserWpf.Model;
 
 namespace XmlParserWpf.ViewModel
@@ -15,6 +13,9 @@ namespace XmlParserWpf.ViewModel
         private readonly FileModel _file;
         private object _selectedValue;
         public ObservableCollection<ThreadViewModel> ThreadsList { get; }
+
+        public RelayCommand ExpandAllCommand { get; }
+        public RelayCommand CollapseAllCommand { get; }
 
         public string Path
         {
@@ -68,8 +69,10 @@ namespace XmlParserWpf.ViewModel
 
         // Public
 
-        public FileViewModel()
+        public FileViewModel(RelayCommand expandAllCommand, RelayCommand collapseAllCommand)
         {
+            ExpandAllCommand = expandAllCommand;
+            CollapseAllCommand = collapseAllCommand;
             ThreadsList = new ObservableCollection<ThreadViewModel>();
         }
 
@@ -82,40 +85,28 @@ namespace XmlParserWpf.ViewModel
             {
                 ThreadsList.Add(new ThreadViewModel(threadModel));
             }
+
+            ExpandAllCommand = new RelayCommand(ExpandAll);
+            CollapseAllCommand = new RelayCommand(CollapseAll);
         }
-
-        // TreeView
-
-        public void OnPreviewItem(object sender, MouseButtonEventArgs e)
-        {
-            var item = sender as MethodModel;
-
-            if (item != null)
-            {
-                var propertiesWindow = new PropertiesWindow(item);
-                propertiesWindow.ShowDialog();
-            }
-            e.Handled = true;
-        }
-
-
+        
         // IExpandable
 
         public bool Expanded { get; set; } = true;
 
-        public void ExpandAll()
+        public void ExpandAll(object sender)
         {
             foreach (var thread in ThreadsList)
             {
-                thread.ExpandAll();
+                thread.ExpandAll(this);
             }
         }
 
-        public void CollapseAll()
+        public void CollapseAll(object sender)
         {
             foreach (var thread in ThreadsList)
             {
-                thread.CollapseAll();
+                thread.CollapseAll(this);
             }
         }
 

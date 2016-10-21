@@ -61,7 +61,9 @@
     <Compile Include="Model\FileModel.cs" />
     <Compile Include="Model\MethodModel.cs" />
     <Compile Include="Model\ThreadModel.cs" />
+    <Compile Include="Utils\AppManager.cs" />
     <Compile Include="ViewModel\Interfaces.cs" />
+    <Compile Include="ViewModel\MethodEditingViewModel.cs" />
     <Compile Include="ViewModel\ThreadViewModel.cs" />
     <Compile Include="Views\FileView.xaml.cs">
       <DependentUpon>FileView.xaml</DependentUpon>
