@@ -1,23 +1,78 @@
-﻿using System.Windows;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using System.Windows;
 using XmlParserWpf.Commands;
-using XmlParserWpf.Model;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class MethodEditingViewModel: MethodViewModel
+    public class MethodEditingViewModel: INotifyPropertyChanged
     {
+        private readonly MethodViewModel _method;
+        private readonly MethodViewModel _realMethod;
+
+        public string Name
+        {
+            get { return _method.Name; }
+            set
+            {
+                if (_method.Name == value)
+                    return;
+
+                _method.Name = value;
+                OnPropertyChanged("Name");
+            }
+        }
+
+        public string Package
+        {
+            get { return _method.Package; }
+            set
+            {
+                if (_method.Package == value)
+                    return;
+
+                _method.Package = value;
+                OnPropertyChanged("Package");
+            }
+        }
+
+        public uint ParamsCount
+        {
+            get { return _method.ParamsCount; }
+            set
+            {
+                if (_method.ParamsCount == value)
+                    return;
+
+                _method.ParamsCount = value;
+                OnPropertyChanged("ParamsCount");
+            }
+        }
+
+        public uint Time
+        {
+            get { return _method.Time; }
+            set
+            {
+                if (_method.Time == value)
+                    return;
+                
+                _method.Time = value;
+                OnPropertyChanged("Time");
+            }
+        }
+
         public Window AssociatedWindow { get; set; }
 
         public RelayCommand OkCommand { get; }
         public RelayCommand CancelCommand { get; }
         public RelayCommand ResetCommand { get; }
 
-        public MethodEditingViewModel(MethodModel method) : base(method)
+        public MethodEditingViewModel(MethodViewModel method)
         {
-        }
+            _realMethod = method;   // link
+            _method = (MethodViewModel) method.Clone();
 
-        public MethodEditingViewModel(MethodModel method, MethodViewModel parent) : base(method, parent)
-        {
             OkCommand = new RelayCommand(OkCommand_OnExecute);
             CancelCommand = new RelayCommand(CancelCommand_OnExecute);
             ResetCommand = new RelayCommand(ResetCommand_OnExecute);
@@ -43,28 +98,20 @@ namespace XmlParserWpf.ViewModel
 
         private void ResetChanges()
         {
-            var p = Parent as MethodModel;
-            if (p == null)
-                return;
-
-            Name = p.Name;
-            Package = p.Package;
-            ParamsCount = p.ParamsCount;
-            Time = p.Time;
+            Name = _realMethod.Name;
+            Package = _realMethod.Package;
+            ParamsCount = _realMethod.ParamsCount;
+            Time = _realMethod.Time;
 
             RefreshAll();
         }
 
         private void SaveChanges()
         {
-            var p = Parent as MethodModel;
-            if (p == null)
-                return;
-
-            p.Name = Name;
-            p.Package = Package;
-            p.ParamsCount = ParamsCount;
-            p.Time = Time;
+            _realMethod.Name = Name;
+            _realMethod.Package = Package;
+            _realMethod.ParamsCount = ParamsCount;
+            _realMethod.Time = Time;
 
             RefreshAll();
         }
@@ -75,6 +122,13 @@ namespace XmlParserWpf.ViewModel
             OnPropertyChanged("Package");
             OnPropertyChanged("ParamsCount");
             OnPropertyChanged("Time");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

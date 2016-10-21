@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using XmlParserWpf.Model;
@@ -9,9 +10,10 @@ namespace XmlParserWpf.ViewModel
         ITimed,
         IExpandable,
         IChangeable,
-        INotifyPropertyChanged
+        INotifyPropertyChanged,
+        ICloneable
     {
-        protected MethodModel _method;
+        private readonly MethodModel _method;
         private bool _expanded;
         public ObservableCollection<MethodViewModel> NestedMethods { get; }
 
@@ -94,21 +96,28 @@ namespace XmlParserWpf.ViewModel
         {
         }
 
-        public MethodViewModel(MethodModel method, MethodViewModel parent)
+        public MethodViewModel(MethodModel method, MethodViewModel parent, bool createNestedTree = true)
         {
             _method = method;
             Parent = parent;
             NestedMethods = new ObservableCollection<MethodViewModel>();
 
+            if (!createNestedTree)
+                return;
+
             foreach (var nestedMethod in method.NestedMethods)
             {
-                NestedMethods.Add(new MethodViewModel(nestedMethod, this));
+                var m = new MethodViewModel(nestedMethod, this);
+                m.ChangeEvent += OnChange;
+                NestedMethods.Add(m);
             }
         }
 
+        // Get MethodEditingViewModel for PropertiesWindow
+
         public MethodEditingViewModel GetNewMethodEditingViewModel()
         {
-            return new MethodEditingViewModel((MethodModel)_method.Clone(), this);
+            return new MethodEditingViewModel(this);
         }
 
         // IExpandable
@@ -122,7 +131,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _expanded = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Expanded");
             }
         }
 
@@ -160,6 +169,13 @@ namespace XmlParserWpf.ViewModel
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+
+        public object Clone()
+        {
+            var methodClone = (MethodModel) _method.Clone();
+            var result = new MethodViewModel(methodClone, null, false);
+            return result;
         }
 
         // Internals

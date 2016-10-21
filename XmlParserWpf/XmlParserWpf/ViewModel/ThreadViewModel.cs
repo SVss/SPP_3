@@ -52,7 +52,9 @@ namespace XmlParserWpf.ViewModel
 
             foreach (var method in threadModel.Methods)
             {
-                Methods.Add(new MethodViewModel(method));
+                var m = new MethodViewModel(method);
+                m.ChangeEvent += OnChange;
+                Methods.Add(m);
             }
         }
        

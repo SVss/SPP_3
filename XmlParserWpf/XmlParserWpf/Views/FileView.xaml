@@ -13,7 +13,7 @@
     </UserControl.DataContext>-->
     
     <Grid>
-        <TreeView SelectedItemChanged="TreeView_OnSelectedItemChanged">
+        <TreeView x:Name="FileTreeView">
             <TreeView.ItemsSource>
                 <Binding Path="ThreadsList"/>
             </TreeView.ItemsSource>
@@ -21,7 +21,6 @@
             <TreeView.ItemContainerStyle>
                 <Style TargetType="{x:Type TreeViewItem}">
                     <Setter Property="IsExpanded" Value="{Binding Path=Expanded, Mode=TwoWay}"></Setter>
-                    <EventSetter Event="PreviewMouseDoubleClick" Handler="TreeViewItem_MouseDoubleClick"></EventSetter>
                 </Style>
             </TreeView.ItemContainerStyle>
 

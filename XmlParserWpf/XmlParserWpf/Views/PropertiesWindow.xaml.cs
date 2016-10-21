@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-using XmlParserWpf.Model;
-using XmlParserWpf.ViewModel;
+﻿using XmlParserWpf.ViewModel;
 
 namespace XmlParserWpf
 {

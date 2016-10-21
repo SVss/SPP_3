@@ -12,8 +12,7 @@ namespace XmlParserWpf
         public MainWindow()
         {
             InitializeComponent();
-            AppManager.SetFileTabsWindow(this);
+            AppManager.FileTabsWindow = this;
         }
-
     }
 }
