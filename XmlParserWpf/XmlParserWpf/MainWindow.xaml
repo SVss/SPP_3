@@ -69,10 +69,10 @@
             </TabControl.ItemTemplate>
 
             <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <views:FileView DataContext="{Binding SelectedFile}"/>
-                    </Grid>
+                <DataTemplate DataType="{x:Type viewModels:FileViewModel}">
+                    
+                    <views:FileView></views:FileView>
+                    
                 </DataTemplate>
             </TabControl.ContentTemplate>
             
