@@ -1,37 +1,33 @@
 ﻿using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Xml;
-using TracerLib;
+using XmlParserWpf.Model;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class MethodsListItem :
+    public class MethodViewModel :
         ITimed,
         IExpandable,
         IChangeable,
         INotifyPropertyChanged,
         ICloneable   // shallow copy
     {
-        private string _name;
-        private string _package;
-        private long _paramsCount;
-        private long _time;
-        public List<MethodsListItem> Nested { get; }
+        private MethodModel _method;
         private bool _expanded;
+        public ObservableCollection<MethodViewModel> NestedMethods { get; }
 
         public object Parent { get; private set; }
 
         public string Name
         {
-            get { return _name; }
+            get { return _method.Name; }
             set
             {
-                if (_name == value)
+                if (_method.Name == value)
                     return;
 
-                _name = value;
+                _method.Name = value;
                 OnPropertyChanged("Name");
                 OnChange();
             }
@@ -39,55 +35,78 @@ namespace XmlParserWpf.ViewModel
 
         public string Package
         {
-            get { return _package; }
+            get { return _method.Package; }
             set
             {
-                if (_package == value)
+                if (_method.Package == value)
                     return;
 
-                _package = value;
+                _method.Package = value;
                 OnPropertyChanged("Package");
                 OnChange();
             }
         }
 
-        public long ParamsCount
+        public uint ParamsCount
         {
-            get { return _paramsCount; }
+            get { return _method.ParamsCount; }
             set
             {
-                if (_paramsCount == value)
+                if (_method.ParamsCount == value)
                     return;
 
-                _paramsCount = value;
+                _method.ParamsCount = value;
                 OnPropertyChanged("ParamsCount");
                 OnChange();
             }
         }
 
-        public long Time
+        public uint Time
         {
-            get { return _time; }
+            get { return _method.Time; }
             set
             {
-                if (_time == value)
+                if (_method.Time == value)
                     return;
 
-                long delta = value - _time;
-                _time = value;
-
-                OnPropertyChanged("Time");
-                OnChange();
+                long delta = value - _method.Time;
 
                 ITimed timed = Parent as ITimed;
                 if (timed != null)
-                    timed.Time += delta;
+                {
+                    long newTime = timed.Time + delta;
+                    if (newTime < 0)
+                    {
+                        
+                        return;
+                    }
+                    timed.Time = (uint)newTime;
+                }
+
+                _method.Time = value;
+                OnPropertyChanged("Time");
+                OnChange();
             }
         }
 
         // Public
 
-        
+        public MethodViewModel(MethodModel method):
+            this(method, null)
+        {
+        }
+
+        public MethodViewModel(MethodModel method, MethodViewModel parent)
+        {
+            _method = method;
+            Parent = parent;
+            NestedMethods = new ObservableCollection<MethodViewModel>();
+
+            foreach (var nestedMethod in method.NestedMethods)
+            {
+                NestedMethods.Add(new MethodViewModel(nestedMethod, this));
+            }
+        }
 
         // IExpandable
 
@@ -107,7 +126,7 @@ namespace XmlParserWpf.ViewModel
         public void ExpandAll()
         {
             Expanded = true;
-            foreach (var method in Nested)
+            foreach (var method in NestedMethods)
             {
                 method.ExpandAll();
             }
@@ -116,7 +135,7 @@ namespace XmlParserWpf.ViewModel
         public void CollapseAll()
         {
             Expanded = false;
-            foreach (var method in Nested)
+            foreach (var method in NestedMethods)
             {
                 method.CollapseAll();
             }
@@ -144,7 +163,7 @@ namespace XmlParserWpf.ViewModel
 
         public object Clone()
         {
-            MethodsListItem result = new MethodsListItem
+            MethodViewModel result = new MethodViewModel()
             {
                 Name = Name,
                 Package = Package,
@@ -154,27 +173,11 @@ namespace XmlParserWpf.ViewModel
             return result;
         }
 
-        // Internal 
+        // Internals
 
-        private MethodsListItem()
+        private MethodViewModel()
         {
-            Nested = new List<MethodsListItem>();
-        }
-
-        public XmlElement ToXmlElement(XmlDocument document)
-        {
-            XmlElement result = document.CreateElement(XmlConstants.MethodTag);
-            result.SetAttribute(XmlConstants.NameAttribute, Name);
-            result.SetAttribute(XmlConstants.TimeAttribute, Time.ToString());
-
-            result.SetAttribute(XmlConstants.PackageAttribute, Package);
-            result.SetAttribute(XmlConstants.ParamsAttribute, ParamsCount.ToString());
-
-            foreach (var child in Nested)
-            {
-                result.AppendChild(child.ToXmlElement(document));
-            }
-            return result;
+            NestedMethods = new ObservableCollection<MethodViewModel>();
         }
     }
 }

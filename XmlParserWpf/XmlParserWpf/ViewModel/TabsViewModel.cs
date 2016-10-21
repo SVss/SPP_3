@@ -1,21 +1,22 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Input;
+using Microsoft.Win32;
 using XmlParserWpf.Commands;
 using XmlParserWpf.Model;
 using MessageBox = System.Windows.MessageBox;
-using OpenFileDialog = System.Windows.Forms.OpenFileDialog;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class FilesViewModel: ObservableCollection<FilesListItem>
+    public class TabsViewModel: INotifyPropertyChanged
     {
+        public ObservableCollection<FileViewModel> FilesList { get; } = new ObservableCollection<FileViewModel>();
+        private int _selectedIndex = NoneSelection;
         public RelayCommand OpenCommand { get; }
         public RelayCommand CloseCommand { get; }
         public RelayCommand SaveCommand { get; }
@@ -33,9 +34,6 @@ namespace XmlParserWpf.ViewModel
             Filter = StringConstants.FileDialogsFilters
         };
 
-
-        private int _selectedIndex = NoneSelection;
-
         public int SelectedIndex
         {
             get { return _selectedIndex; }
@@ -45,19 +43,17 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _selectedIndex = value;
-                OnPropertyChanged(
-                    new PropertyChangedEventArgs("SelectedIndex"));
-                OnPropertyChanged(
-                    new PropertyChangedEventArgs("SelectedFile"));
+                OnPropertyChanged("SelectedIndex");
+                OnPropertyChanged("SelectedFile");
             }
         }
 
-        public FilesListItem SelectedFile => 
-            (SelectedIndex != NoneSelection) ? this[SelectedIndex] : null;
+        public FileViewModel SelectedFile => 
+            (SelectedIndex != NoneSelection) ? FilesList[SelectedIndex] : null;
 
         // Public
 
-        public FilesViewModel()
+        public TabsViewModel()
         {
             OpenCommand = new RelayCommand(Open_OnExecuted);
             CloseCommand = new RelayCommand(Close_OnExecuted, Close_OnCanExecute);
@@ -67,67 +63,56 @@ namespace XmlParserWpf.ViewModel
             CollapseAllCommand = new RelayCommand(CollapseAll_OnExecuted);
         }
 
-        public void AddAndSelect(FilesListItem item)
+        public void AddAndSelect(FileViewModel item)
         {
-            Add(item);
-            SelectedIndex = IndexOf(item);
+            FilesList.Add(item);
+            SelectedIndex = FilesList.IndexOf(item);
         }
 
         public void SelectIfExists(string path)
         {
             if (HasFile(path))
-                SelectedIndex = IndexOf(this.First(x => x.Path.Equals(path)));
+                SelectedIndex = FilesList.IndexOf(FilesList.First(x => x.Path.Equals(path)));
         }
 
-        public bool HasFile(string path) => this.Any(x => x.Path.Equals(path));
+        public bool HasFile(string path) => FilesList.Any(x => x.Path.Equals(path));
 
         public void RemoveSelected()
         {
             if (SelectedIndex == NoneSelection)
                 return;
 
-            RemoveAt(SelectedIndex);
-            if (Count == 0)
+            FilesList.RemoveAt(SelectedIndex);
+            if (FilesList.Count == 0)
                 SelectedIndex = NoneSelection;
         }
-
-
-        // TreeView
 
         public void OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             if (SelectedFile == null)
                 return;
 
-            SelectedFile.SelectedMethod =
-                e.NewValue as MethodsListItem;
+            SelectedFile.SelectedValue =
+                e.NewValue as MethodViewModel;
         }
 
-        public void OnPreviewItem(object sender, MouseButtonEventArgs e)
+        // INotifyPropertyChange
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
-            TreeViewItem item = sender as TreeViewItem;
-            if ((item == null)
-                || (!item.IsSelected)
-                || (SelectedFile.SelectedMethod == null))
-                return;
-
-            var propertiesWindow = new PropertiesWindow(
-                SelectedFile.SelectedMethod);
-
-            propertiesWindow.ShowDialog();
-            e.Handled = true;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
 
         // Internals
 
-        
         // Open command
 
         private void Open_OnExecuted(object sender)
         {
-            DialogResult openResult = OpenFileDialog.ShowDialog();
-            if (openResult != System.Windows.Forms.DialogResult.OK)
+            bool? openResult = OpenFileDialog.ShowDialog();
+            if (openResult == null || !openResult.Value)
                 return;
 
             string path = OpenFileDialog.FileNames[0];
@@ -139,7 +124,8 @@ namespace XmlParserWpf.ViewModel
 
             try
             {
-                AddAndSelect(FilesListItem.LoadFromFile(path));
+                AddAndSelect(new FileViewModel(
+                    FileModel.LoadFromFile(path)));
             }
             catch (BadXmlException)
             {
@@ -156,7 +142,7 @@ namespace XmlParserWpf.ViewModel
 
         private bool Close_OnCanExecute(object sender)
         {
-            return (Count > 0);
+            return (FilesList.Count > 0);
         }
 
         private void Close_OnExecuted(object sender)
@@ -165,7 +151,7 @@ namespace XmlParserWpf.ViewModel
                 RemoveSelected();
         }
 
-        public static bool CanCloseFile(FilesListItem file)
+        public static bool CanCloseFile(FileViewModel file)
         {
             if (file.IsSaved)
                 return true;
@@ -185,7 +171,7 @@ namespace XmlParserWpf.ViewModel
                     break;
 
                 case MessageBoxResult.Yes:
-                    file.Save();
+                    //file.Save();
                     result = true;
                     break;
             }
@@ -197,13 +183,13 @@ namespace XmlParserWpf.ViewModel
 
         private bool SaveAs_OnCanExecute(object sender)
         {
-            return (Count > 0);
+            return (FilesList.Count > 0);
         }
 
         private void SaveAs_OnExecuted(object sender)
         {
-            DialogResult saveResult = SaveFileDialog.ShowDialog();
-            if (saveResult != System.Windows.Forms.DialogResult.OK)
+            bool? saveResult = SaveFileDialog.ShowDialog();
+            if (saveResult == null || !saveResult.Value)
                 return;
 
             string path = SaveFileDialog.FileNames[0];
@@ -221,12 +207,11 @@ namespace XmlParserWpf.ViewModel
             }
         }
 
-
         // Save command
 
         private bool Save_OnCanExecute(object sender)
         {
-            return (Count > 0)
+            return (FilesList.Count > 0)
                 && (!SelectedFile.IsSaved);  // TODO: check if files exists
         }
 
@@ -235,7 +220,6 @@ namespace XmlParserWpf.ViewModel
             SelectedFile.Save();
         }
 
-        
         // ExpandAll command
 
         private void ExpandAll_OnExecuted(object sender)
@@ -262,29 +246,14 @@ namespace XmlParserWpf.ViewModel
             e.Cancel = !CloseAllSucceeded();
         }
 
-
         // Constants
 
         private const int NoneSelection = -1;
 
-        internal static class MessagesConsts
-        {
-            public static string WarningMessageCaption => "Warning";
-            public static string ErrorMessageCaption => "Error";
-            public static string FileNotSavedMessage => "File \"{0}\" is not saved.\nDo you want to save it before closing?";
-            public static string FileCantSaveMessage => "Can't save file \"{0}\".";
-            public static string FileCantLoadMessage => "Can't load file \"{0}\".";
-        }
-
-        internal static class StringConstants
-        {
-            public static string FileDialogsFilters => "XML-file|*.xml";
-        }
-
         public bool CloseAllSucceeded()
         {
             SelectedIndex = 0; // start closing from 1st file
-            while (Count > 0)
+            while (FilesList.Count > 0)
             {
                 if (CanCloseFile(SelectedFile)) // ask user here
                     RemoveSelected();
@@ -297,4 +266,19 @@ namespace XmlParserWpf.ViewModel
         }
 
     }
+
+    internal static class MessagesConsts
+    {
+        public static string WarningMessageCaption => "Warning";
+        public static string ErrorMessageCaption => "Error";
+        public static string FileNotSavedMessage => "File \"{0}\" is not saved.\nDo you want to save it before closing?";
+        public static string FileCantSaveMessage => "Can't save file \"{0}\".";
+        public static string FileCantLoadMessage => "Can't load file \"{0}\".";
+    }
+
+    internal static class StringConstants
+    {
+        public static string FileDialogsFilters => "XML-file|*.xml";
+    }
+
 }

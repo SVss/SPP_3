@@ -4,7 +4,7 @@
 
     internal interface ITimed
     {
-        long Time { get; set; }
+        uint Time { get; set; }
     }
 
     // IExpandable

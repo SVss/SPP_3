@@ -1,46 +1,43 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Xml;
-using TracerLib;
+using XmlParserWpf.Model;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class ThreadsListItem:
+    public class ThreadViewModel:
         ITimed,
         IExpandable,
         IChangeable,
         INotifyPropertyChanged
     {
-        private long _id;
-        private long _time;
-        public List<MethodsListItem> Methods { get; }
+        private readonly ThreadModel _thread;
         private bool _expanded;
+        public ObservableCollection<MethodViewModel> Methods { get; }
 
-        public long Id
+        public uint Id
         {
-            get { return _id; }
+            get { return _thread.Id; }
             set
             {
-                if (_id == value)
+                if (_thread.Id == value)
                     return;
-                _id = value;
+                _thread.Id = value;
 
                 OnPropertyChanged("Id");
                 OnChange();
             }
         }
 
-        public long Time
+        public uint Time
         {
-            get { return _time; }
+            get { return _thread.Time; }
             set
             {
-                if (_time == value)
+                if (_thread.Time == value)
                     return;
 
-                _time = value;
+                _thread.Time = value;
                 OnPropertyChanged("Time");
                 OnChange();
             }
@@ -48,6 +45,16 @@ namespace XmlParserWpf.ViewModel
 
         // Public
 
+        public ThreadViewModel(ThreadModel threadModel)
+        {
+            _thread = threadModel;
+            Methods = new ObservableCollection<MethodViewModel>();
+
+            foreach (var method in threadModel.Methods)
+            {
+                Methods.Add(new MethodViewModel(method));
+            }
+        }
        
         // IExpandable
 
@@ -60,7 +67,7 @@ namespace XmlParserWpf.ViewModel
                     return;
 
                 _expanded = value;
-                OnPropertyChanged();
+                OnPropertyChanged("Expanded");
             }
         }
 
@@ -100,11 +107,5 @@ namespace XmlParserWpf.ViewModel
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
-        // Internal
-
-        private ThreadsListItem()
-        {
-            Methods = new List<MethodsListItem>();
-        }
     }
 }
