@@ -4,7 +4,6 @@ using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using XmlParserWpf.Commands;
 using XmlParserWpf.Model;
 using XmlParserWpf.Views;
 using XmlParserWpf.Utils;
@@ -91,8 +90,8 @@ namespace XmlParserWpf.ViewModel
             ExpandAllCommand = new RelayCommand(ExpandAll);
             CollapseAllCommand = new RelayCommand(CollapseAll);
 
-            AppManager.FileTreeViewSelectedItemChangedHandler = TreeView_OnSelectedItemChanged;
-            AppManager.FileTreeViewMouseDoubleClick = TreeViewItem_MouseDoubleClick;
+            EventsManager.SubscribeFileTreeViewSelectedItemChangedEvent(TreeView_OnSelectedItemChanged);
+            EventsManager.SubscribeFileTreeViewMouseDoubleClick(TreeViewItem_MouseDoubleClick);
         }
 
         public void ChangeFile()

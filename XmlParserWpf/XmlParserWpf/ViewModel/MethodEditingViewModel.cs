@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using XmlParserWpf.Commands;
+using XmlParserWpf.Utils;
 
 namespace XmlParserWpf.ViewModel
 {

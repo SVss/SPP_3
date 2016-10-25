@@ -77,7 +77,6 @@ namespace XmlParserWpf.ViewModel
                     long newTime = timed.Time + delta;
                     if (newTime < 0)
                     {
-                        
                         return;
                     }
                     timed.Time = (uint)newTime;

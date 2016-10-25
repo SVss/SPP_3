@@ -57,11 +57,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="Model\FileModel.cs" />
     <Compile Include="Model\MethodModel.cs" />
     <Compile Include="Model\ThreadModel.cs" />
-    <Compile Include="Utils\AppManager.cs" />
+    <Compile Include="Utils\EventsManager.cs" />
     <Compile Include="ViewModel\Interfaces.cs" />
     <Compile Include="ViewModel\MethodEditingViewModel.cs" />
     <Compile Include="ViewModel\ThreadViewModel.cs" />

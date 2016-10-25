@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace XmlParserWpf.Commands
+namespace XmlParserWpf.Utils
 {
     public class RelayCommand : ICommand
     {

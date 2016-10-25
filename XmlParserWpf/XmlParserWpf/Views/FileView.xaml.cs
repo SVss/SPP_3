@@ -11,7 +11,7 @@ namespace XmlParserWpf.Views
         public FileView()
         {
             InitializeComponent();
-            AppManager.FileTreeView = FileTreeView;
+            EventsManager.ProvideFileTreeViewToSubscribeEvents(FileTreeView);
         }        
     }
 }

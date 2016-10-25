@@ -4,11 +4,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
 using Microsoft.Win32;
-using XmlParserWpf.Commands;
 using XmlParserWpf.Model;
 using XmlParserWpf.Utils;
 using MessageBox = System.Windows.MessageBox;
@@ -60,7 +56,7 @@ namespace XmlParserWpf.ViewModel
 
         public TabsViewModel()
         {
-            AppManager.WindowCancelEventHandler = FileTabsWindow_OnClosing;
+            EventsManager.SubscribeFileTabsWindowCancelEvent(FileTabsWindow_OnClosing);
 
             OpenCommand = new RelayCommand(Open_OnExecuted);
             CloseCommand = new RelayCommand(Close_OnExecuted, Close_OnCanExecute);
@@ -153,8 +149,8 @@ namespace XmlParserWpf.ViewModel
             catch (BadXmlException)
             {
                 MessageBox.Show(
-                    string.Format(MessagesConsts.FileCantLoadMessage, path),
-                    MessagesConsts.ErrorMessageCaption,
+                    string.Format(MessagesConstants.FileCantLoadMessage, path),
+                    MessagesConstants.ErrorMessageCaption,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
@@ -179,8 +175,8 @@ namespace XmlParserWpf.ViewModel
                 return true;
 
             MessageBoxResult answ = MessageBox.Show(
-                string.Format(MessagesConsts.FileNotSavedMessage, file.Path),
-                MessagesConsts.WarningMessageCaption,
+                string.Format(MessagesConstants.FileNotSavedMessage, file.Path),
+                MessagesConstants.WarningMessageCaption,
                 MessageBoxButton.YesNoCancel,
                 MessageBoxImage.Exclamation
             );
@@ -221,8 +217,8 @@ namespace XmlParserWpf.ViewModel
             catch (Exception)
             {
                 MessageBox.Show(
-                    string.Format(MessagesConsts.FileCantSaveMessage, path),
-                    MessagesConsts.ErrorMessageCaption,
+                    string.Format(MessagesConstants.FileCantSaveMessage, path),
+                    MessagesConstants.ErrorMessageCaption,
                     MessageBoxButton.OK,
                     MessageBoxImage.Error);
             }
@@ -276,7 +272,7 @@ namespace XmlParserWpf.ViewModel
 
     // Constants
 
-    internal static class MessagesConsts
+    internal static class MessagesConstants
     {
         public static string WarningMessageCaption => "Warning";
         public static string ErrorMessageCaption => "Error";
