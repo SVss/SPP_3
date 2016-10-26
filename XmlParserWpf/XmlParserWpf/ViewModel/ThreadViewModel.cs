@@ -5,11 +5,7 @@ using XmlParserWpf.Model;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class ThreadViewModel:
-        ITimed,
-        IExpandable,
-        IChangeable,
-        INotifyPropertyChanged
+    public class ThreadViewModel: BaseViewModel, ITimed, IExpandable, IChangeable
     {
         private readonly ThreadModel _thread;
         private bool _expanded;

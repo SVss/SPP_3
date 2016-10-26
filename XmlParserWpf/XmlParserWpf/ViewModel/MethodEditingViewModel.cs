@@ -1,13 +1,9 @@
-﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
-using System.Windows;
+﻿using System.Windows;
 using XmlParserWpf.Utils;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class MethodEditingViewModel:
-        ITimed,
-        INotifyPropertyChanged
+    public class MethodEditingViewModel: BaseViewModel, ITimed
     {
         private readonly MethodViewModel _method;
         private readonly MethodViewModel _realMethod;
@@ -124,13 +120,6 @@ namespace XmlParserWpf.ViewModel
             OnPropertyChanged("Package");
             OnPropertyChanged("ParamsCount");
             OnPropertyChanged("Time");
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

@@ -2,7 +2,6 @@
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Windows;
 using Microsoft.Win32;
 using XmlParserWpf.Model;
@@ -11,7 +10,7 @@ using MessageBox = System.Windows.MessageBox;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class TabsViewModel: INotifyPropertyChanged
+    public class TabsViewModel: BaseViewModel
     {
         public ObservableCollection<FileViewModel> FilesList { get; } = new ObservableCollection<FileViewModel>();
         private int _selectedIndex = NoneSelection;
@@ -113,15 +112,6 @@ namespace XmlParserWpf.ViewModel
                 }
             }
             return true;
-        }
-
-        // INotifyPropertyChange
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
         // Internals

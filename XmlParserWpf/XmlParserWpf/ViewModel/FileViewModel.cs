@@ -10,9 +10,7 @@ using XmlParserWpf.Utils;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class FileViewModel:
-        IExpandable,
-        INotifyPropertyChanged
+    public class FileViewModel: BaseViewModel, IExpandable
     {
         private readonly FileModel _file;
         private object _selectedValue;
@@ -118,16 +116,7 @@ namespace XmlParserWpf.ViewModel
                 thread.CollapseAll(this);
             }
         }
-
-        // INotifyPropertyChange
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-
+        
         // Internals
 
         private void TreeView_OnSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)

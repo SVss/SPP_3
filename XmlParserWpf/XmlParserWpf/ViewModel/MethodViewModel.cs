@@ -1,17 +1,10 @@
 ﻿using System;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using XmlParserWpf.Model;
 
 namespace XmlParserWpf.ViewModel
 {
-    public class MethodViewModel :
-        ITimed,
-        IExpandable,
-        IChangeable,
-        INotifyPropertyChanged,
-        ICloneable
+    public class MethodViewModel : BaseViewModel, ICloneable, ITimed, IExpandable, IChangeable
     {
         private readonly MethodModel _method;
         private bool _expanded;
@@ -160,15 +153,8 @@ namespace XmlParserWpf.ViewModel
         {
             ChangeEvent?.Invoke();
         }
-
-        // INotifyPropertyChange
-
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
+        
+        // ICloneable
 
         public object Clone()
         {
@@ -176,13 +162,5 @@ namespace XmlParserWpf.ViewModel
             var result = new MethodViewModel(methodClone, null, false);
             return result;
         }
-
-        // Internals
-
-        private MethodViewModel()
-        {
-            NestedMethods = new ObservableCollection<MethodViewModel>();
-        }
-
     }
 }

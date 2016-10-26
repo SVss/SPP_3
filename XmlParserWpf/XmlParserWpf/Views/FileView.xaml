@@ -8,10 +8,6 @@
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
 
-    <!--<UserControl.DataContext >
-        <viewModels:FileViewModel/>
-    </UserControl.DataContext>-->
-    
     <Grid>
         <TreeView x:Name="FileTreeView">
             <TreeView.ItemsSource>
